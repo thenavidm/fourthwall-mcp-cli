@@ -1,0 +1,6711 @@
+[
+  {
+    "name": "get_webhook",
+    "operationId": "get-webhook",
+    "title": "Get a webhook",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nGet a webhook",
+    "method": "GET",
+    "path": "/open-api/v1.0/webhooks/{webhookConfigurationId}",
+    "group": "webhooks",
+    "risk": "read",
+    "params": [
+      {
+        "name": "webhookConfigurationId",
+        "key": "webhook_configuration_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native webhookConfigurationId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "webhook_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/webhooks/get-webhook"
+  },
+  {
+    "name": "update_webhook",
+    "operationId": "update-webhook",
+    "title": "Update a webhook",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nUpdate a webhook",
+    "method": "PUT",
+    "path": "/open-api/v1.0/webhooks/{webhookConfigurationId}",
+    "group": "webhooks",
+    "risk": "destructive",
+    "params": [
+      {
+        "name": "webhookConfigurationId",
+        "key": "webhook_configuration_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native webhookConfigurationId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "allowedTypes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "ORDER_PLACED",
+              "ORDER_UPDATED",
+              "GIFT_PURCHASE",
+              "PRODUCT_CREATED",
+              "PRODUCT_UPDATED",
+              "DONATION",
+              "SUBSCRIPTION_PURCHASED",
+              "SUBSCRIPTION_EXPIRED",
+              "SUBSCRIPTION_CHANGED",
+              "NEWSLETTER_SUBSCRIBED",
+              "THANK_YOU_SENT",
+              "GIFT_DRAW_STARTED",
+              "GIFT_DRAW_ENDED",
+              "PROMOTION_CREATED",
+              "PROMOTION_UPDATED",
+              "PROMOTION_STATUS_CHANGED",
+              "PLATFORM_APP_DISCONNECTED",
+              "MEMBERSHIP_POST_UPSERTED",
+              "MEMBERSHIP_SERIES_UPSERTED",
+              "MEMBERSHIP_SERIES_DELETED",
+              "MEMBERSHIP_TAG_CREATED",
+              "MEMBERSHIP_TAG_UPDATED",
+              "MEMBERSHIP_TAG_DELETED",
+              "MEMBERSHIP_TIER_UPSERTED",
+              "MEMBERSHIP_TIER_DELETED",
+              "COLLECTION_UPDATED",
+              "CART_ABANDONED_1H",
+              "CART_ABANDONED_24H",
+              "CART_ABANDONED_72H"
+            ]
+          }
+        }
+      },
+      "required": [
+        "allowedTypes",
+        "url"
+      ],
+      "title": "Webhook Configuration Update Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "webhook_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/webhooks/update-webhook"
+  },
+  {
+    "name": "delete_webhook",
+    "operationId": "delete-webhook",
+    "title": "Delete a webhook",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nDelete a webhook",
+    "method": "DELETE",
+    "path": "/open-api/v1.0/webhooks/{webhookConfigurationId}",
+    "group": "webhooks",
+    "risk": "destructive",
+    "params": [
+      {
+        "name": "webhookConfigurationId",
+        "key": "webhook_configuration_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native webhookConfigurationId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "webhook_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": true,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/webhooks/delete-webhook"
+  },
+  {
+    "name": "start_streaming",
+    "operationId": "start-streaming",
+    "title": "Set streaming status to started",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nSets streaming status to started for specified services",
+    "method": "PUT",
+    "path": "/open-api/v1.0/streaming/start",
+    "group": "streaming",
+    "risk": "destructive",
+    "params": [],
+    "bodySchema": {
+      "type": "object",
+      "properties": {
+        "services": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "allOf": [
+                  {
+                    "properties": {
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "title": "Service"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "broadcasterId": {
+                        "type": "string"
+                      },
+                      "broadcasterLogin": {
+                        "type": "string"
+                      },
+                      "thumbnailUrl": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                ],
+                "required": [
+                  "broadcasterId",
+                  "broadcasterLogin"
+                ],
+                "title": "Twitch"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "services"
+      ],
+      "title": "Streaming Started Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "giveaway_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/streaming/start-streaming"
+  },
+  {
+    "name": "end_streaming",
+    "operationId": "end-streaming",
+    "title": "Set streaming status to ended",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nSets streaming status to ended for specified services",
+    "method": "PUT",
+    "path": "/open-api/v1.0/streaming/end",
+    "group": "streaming",
+    "risk": "destructive",
+    "params": [],
+    "bodySchema": {
+      "type": "object",
+      "properties": {
+        "services": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "TWITCH"
+            ]
+          }
+        }
+      },
+      "required": [
+        "services"
+      ],
+      "title": "Streaming Ended Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "giveaway_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/streaming/end-streaming"
+  },
+  {
+    "name": "get_public_token",
+    "operationId": "get-public-token",
+    "title": "Get or create a public token",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns an existing public token for the shop, or creates a new one if none exists",
+    "method": "PUT",
+    "path": "/open-api/v1.0/public-token",
+    "group": "shop",
+    "risk": "destructive",
+    "params": [],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": true,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "shop_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/shop/get-public-token"
+  },
+  {
+    "name": "get_promotion",
+    "operationId": "get-promotion",
+    "title": "Get a promotion by id",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns a promotion by id",
+    "method": "GET",
+    "path": "/open-api/v1.0/promotions/{promotionId}",
+    "group": "promotions",
+    "risk": "read",
+    "params": [
+      {
+        "name": "promotionId",
+        "key": "promotion_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native promotionId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "promotions_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/promotions/get-promotion"
+  },
+  {
+    "name": "update_promotion",
+    "operationId": "update-promotion",
+    "title": "Update a promotion",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nUpdates an existing promotion's configuration. Only provided fields are updated; omitted fields remain unchanged. Status changes (activate/deactivate) are part of the same update call.",
+    "method": "PUT",
+    "path": "/open-api/v1.0/promotions/{promotionId}",
+    "group": "promotions",
+    "risk": "destructive",
+    "params": [
+      {
+        "name": "promotionId",
+        "key": "promotion_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native promotionId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": {
+      "type": "object",
+      "properties": {
+        "limits": {
+          "type": "object",
+          "properties": {
+            "maximumUse": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "oneUsePerCustomer": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "oneUsePerCustomer"
+          ],
+          "title": "Open Api Promotion Limits"
+        },
+        "requirements": {
+          "type": "object",
+          "properties": {
+            "minimumOrderValue": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "currency": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "currency",
+                "value"
+              ],
+              "title": "Money"
+            }
+          },
+          "title": "Shop"
+        },
+        "appliesTo": {
+          "oneOf": [
+            {
+              "allOf": [
+                {
+                  "title": "Open Api Update Promotion Applies To"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "type"
+              ],
+              "title": "Entire Order"
+            },
+            {
+              "allOf": [
+                {
+                  "title": "Open Api Update Promotion Applies To"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "productIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "uuid"
+                      }
+                    },
+                    "oncePerOrder": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "productIds"
+              ],
+              "title": "Selected Products"
+            }
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "LIVE",
+            "ENDED"
+          ]
+        }
+      },
+      "title": "Open Api Update Promotion Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "promotions_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "update_product_state",
+    "operationId": "update-product-state",
+    "title": "Update product (offer) lifecycle state",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nTransitions the product between `PUBLIC` and `HIDDEN`. Use `DELETE /products/{productId}` to archive \u2014 `ARCHIVED` is not reachable here. The sold-out (`available`) flag is preserved; flip it via `PUT /products/{productId}/availability`. Idempotent: no-op if the product is already in the requested state.",
+    "method": "PUT",
+    "path": "/open-api/v1.0/products/{productId}/state",
+    "group": "products (offers)",
+    "risk": "destructive",
+    "params": [
+      {
+        "name": "productId",
+        "key": "product_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native productId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": {
+      "type": "object",
+      "description": "Request to transition a product (offer) lifecycle state. Only `PUBLIC` and `HIDDEN` are reachable via this endpoint \u2014 use `DELETE /products/{productId}` to archive.",
+      "properties": {
+        "state": {
+          "type": "string",
+          "description": "Target lifecycle state. `PUBLIC` makes the product visible on the storefront; `HIDDEN` keeps it unlisted. The sold-out (`available`) flag is preserved across the transition \u2014 use `PUT /products/{productId}/availability` to flip it.",
+          "enum": [
+            "PUBLIC",
+            "HIDDEN"
+          ]
+        }
+      },
+      "required": [
+        "state"
+      ],
+      "title": "Update Product State V1Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "offer_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "toggle_product_availability",
+    "operationId": "update-product-availability",
+    "title": "Update product (offer) availability by id",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nUpdates a product (offer) availability",
+    "method": "PUT",
+    "path": "/open-api/v1.0/products/{productId}/availability",
+    "group": "products (offers)",
+    "risk": "destructive",
+    "params": [
+      {
+        "name": "productId",
+        "key": "product_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native productId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": {
+      "type": "object",
+      "properties": {
+        "available": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "available"
+      ],
+      "title": "Update Offer Availability V1Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "offer_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/products/update-product-availability"
+  },
+  {
+    "name": "mark_download_complete",
+    "operationId": "mark-download-complete",
+    "title": "Mark digital download as downloaded",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nMarks digital download as downloaded. If no downloads exist for a digital order and defaultFileUrl is provided in the request body, creates a download with that URL and marks it as downloaded.",
+    "method": "PUT",
+    "path": "/open-api/v1.0/order/{orderId}/downloaded",
+    "group": "orders",
+    "risk": "destructive",
+    "params": [
+      {
+        "name": "orderId",
+        "key": "order_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native orderId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": {
+      "type": "object",
+      "properties": {
+        "defaultFileUrl": {
+          "type": "string"
+        }
+      },
+      "title": "Mark Download As Downloaded Request"
+    },
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "order_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": true,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/orders/mark-download-complete"
+  },
+  {
+    "name": "finish_giveaway",
+    "operationId": "finish-giveaway",
+    "title": "Finish giveaway",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nFinish giveaway and select winners",
+    "method": "PUT",
+    "path": "/open-api/v1.0/giveaways/giveaways/{id}/finish/twitch",
+    "group": "giveaways",
+    "risk": "destructive",
+    "params": [
+      {
+        "name": "id",
+        "key": "id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native id",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": {
+      "type": "object",
+      "properties": {
+        "participants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "userId": {
+                "type": "string"
+              },
+              "userName": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "userId",
+              "userName"
+            ],
+            "title": "Participant"
+          }
+        }
+      },
+      "required": [
+        "participants"
+      ],
+      "title": "Finish Giveaway Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "giveaway_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "create_giveaway_checkout",
+    "operationId": "create-giveaway-checkout",
+    "title": "Create or update giveaway",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nCreates a new giveaway or updates existing one",
+    "method": "PUT",
+    "path": "/open-api/v1.0/giveaways/giveaway-checkout",
+    "group": "giveaways",
+    "risk": "destructive",
+    "params": [],
+    "bodySchema": {
+      "type": "object",
+      "properties": {
+        "heading": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "iconUrl": {
+          "type": "string"
+        },
+        "buttonText": {
+          "type": "string"
+        },
+        "disabled": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "buttonText",
+        "description",
+        "heading",
+        "iconUrl"
+      ],
+      "title": "Create Giveaway Checkout X Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "giveaway_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": true,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "disable_giveaway_checkout",
+    "operationId": "disable-giveaway-checkout",
+    "title": "Disable giveaway config",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\ndisables a giveaway config",
+    "method": "DELETE",
+    "path": "/open-api/v1.0/giveaways/giveaway-checkout",
+    "group": "giveaways",
+    "risk": "destructive",
+    "params": [],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "giveaway_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": true,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "finish_giveaway_draw",
+    "operationId": "finish-draw",
+    "title": "Finish draw",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nFinish draw and select winners",
+    "method": "PUT",
+    "path": "/open-api/v1.0/gifting/draw/{id}/finish",
+    "group": "gifting",
+    "risk": "destructive",
+    "params": [
+      {
+        "name": "id",
+        "key": "id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native id",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": {
+      "type": "object",
+      "properties": {
+        "participants": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "allOf": [
+                  {
+                    "properties": {
+                      "service": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "service"
+                    ],
+                    "title": "Participant"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "userId": {
+                        "type": "string"
+                      },
+                      "userName": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                ],
+                "required": [
+                  "userId",
+                  "userName"
+                ],
+                "title": "Twitch"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "participants"
+      ],
+      "title": "Draw Finished Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "giveaway_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/gifting/finish-draw"
+  },
+  {
+    "name": "get_gifting_config",
+    "operationId": "get-gifting-config",
+    "title": "Get gifting config",
+    "description": "Returns the calling shop's saved gifting rules. Returns a default-shaped config when none is persisted yet.",
+    "method": "GET",
+    "path": "/open-api/v1.0/gifting/config",
+    "group": "gifting",
+    "risk": "read",
+    "params": [],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "giveaway_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {},
+    "source": "https://docs.fourthwall.com/api-reference/platform/gifting/get-gifting-config"
+  },
+  {
+    "name": "update_gifting_config",
+    "operationId": "update-gifting-config",
+    "title": "Update gifting config",
+    "description": "Writes the four creator-controlled gifting rule fields. Validation (duration 20-180s, valid shipping/products) and the one-platform-per-shop mutex are enforced server-side. Upserts: a first-ever PUT materializes the config row.",
+    "method": "PUT",
+    "path": "/open-api/v1.0/gifting/config",
+    "group": "gifting",
+    "risk": "destructive",
+    "params": [],
+    "bodySchema": {
+      "type": "object",
+      "description": "The gifting rules to save.",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Master flag. Off pauses purchasability without losing the rest."
+        },
+        "entryTimeLimitSeconds": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Entry time limit in seconds. Validated 20-180."
+        },
+        "shipping": {
+          "oneOf": [
+            {
+              "allOf": [
+                {
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type"
+                  ],
+                  "title": "Shipping Policy X Request"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "ALL_CREATOR"
+                    }
+                  }
+                }
+              ],
+              "title": "All Creator"
+            },
+            {
+              "allOf": [
+                {
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type"
+                  ],
+                  "title": "Shipping Policy X Request"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "ALL_WINNER"
+                    }
+                  }
+                }
+              ],
+              "title": "All Winner"
+            },
+            {
+              "allOf": [
+                {
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type"
+                  ],
+                  "title": "Shipping Policy X Request"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "max": {
+                      "type": "number",
+                      "format": "double"
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "MAX_CREATOR"
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "max"
+              ],
+              "title": "Max Creator"
+            }
+          ]
+        },
+        "products": {
+          "oneOf": [
+            {
+              "allOf": [
+                {
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type"
+                  ],
+                  "title": "Products Policy X Request"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "ALL"
+                    }
+                  }
+                }
+              ],
+              "title": "All Products"
+            },
+            {
+              "allOf": [
+                {
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type"
+                  ],
+                  "title": "Products Policy X Request"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "offerIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "uuid"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "EXCLUDED"
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "offerIds"
+              ],
+              "title": "Excluded Products"
+            },
+            {
+              "allOf": [
+                {
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type"
+                  ],
+                  "title": "Products Policy X Request"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "offerIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "uuid"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "SELECTED"
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "offerIds"
+              ],
+              "title": "Selected Products"
+            }
+          ]
+        }
+      },
+      "required": [
+        "enabled",
+        "entryTimeLimitSeconds",
+        "products",
+        "shipping"
+      ],
+      "title": "Update Gifting Config X Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "giveaway_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {},
+    "source": "https://docs.fourthwall.com/api-reference/platform/gifting/update-gifting-config"
+  },
+  {
+    "name": "update_collection",
+    "operationId": "update-collection",
+    "title": "Update a collection",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nUpdates collection name, description, and/or product list",
+    "method": "PUT",
+    "path": "/open-api/v1.0/collections/{collectionId}",
+    "group": "collections",
+    "risk": "destructive",
+    "params": [
+      {
+        "name": "collectionId",
+        "key": "collection_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native collectionId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": {
+      "type": "object",
+      "description": "Request to update a collection",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "offerIds": {
+          "type": "array",
+          "description": "List of product IDs to set in the collection",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "title": "Update Collection V1Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "offer_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/collections/update-collection"
+  },
+  {
+    "name": "get_collection_products",
+    "operationId": "get-collection-products",
+    "title": "Get products in a collection",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns paginated products in a collection with optional status filtering. The maximum page size is 100 - larger values are capped at 100.",
+    "method": "GET",
+    "path": "/open-api/v1.0/collections/{collectionId}/products",
+    "group": "collections",
+    "risk": "read",
+    "params": [
+      {
+        "name": "collectionId",
+        "key": "collection_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native collectionId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      },
+      {
+        "name": "page",
+        "key": "page",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "default": 0,
+          "description": "Native page",
+          "minimum": 0
+        },
+        "explode": true
+      },
+      {
+        "name": "size",
+        "key": "size",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "default": 20,
+          "description": "Number of elements per page. The maximum page size is 100 - larger values are capped at 100.",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "explode": true
+      },
+      {
+        "name": "status",
+        "key": "status",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "description": "Filter by product status",
+          "enum": [
+            "PUBLIC",
+            "AVAILABLE",
+            "SOLD_OUT",
+            "HIDDEN",
+            "ARCHIVED"
+          ]
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": true,
+    "scopes": [
+      {
+        "oauth": [
+          "offer_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "update_collection_products",
+    "operationId": "update-collection-products",
+    "title": "Set collection products",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nSets the full list of product IDs in the collection",
+    "method": "PUT",
+    "path": "/open-api/v1.0/collections/{collectionId}/products",
+    "group": "collections",
+    "risk": "destructive",
+    "params": [
+      {
+        "name": "collectionId",
+        "key": "collection_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native collectionId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": {
+      "type": "object",
+      "description": "Request to set the products in a collection",
+      "properties": {
+        "offerIds": {
+          "type": "array",
+          "description": "Full list of product IDs to set in the collection",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "required": [
+        "offerIds"
+      ],
+      "title": "Update Collection Products V1Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "offer_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/collections/update-collection-products"
+  },
+  {
+    "name": "update_collection_availability",
+    "operationId": "update-collection-availability",
+    "title": "Update collection availability",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nToggle collection availability (available/unavailable)",
+    "method": "PUT",
+    "path": "/open-api/v1.0/collections/{collectionId}/availability",
+    "group": "collections",
+    "risk": "destructive",
+    "params": [
+      {
+        "name": "collectionId",
+        "key": "collection_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native collectionId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": {
+      "type": "object",
+      "description": "Request to update collection availability",
+      "properties": {
+        "available": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "available"
+      ],
+      "title": "Update Collection Availability V1Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "offer_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/collections/update-collection-availability"
+  },
+  {
+    "name": "list_webhooks",
+    "operationId": "list-webhooks",
+    "title": "Get webhooks",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nGet webhooks",
+    "method": "GET",
+    "path": "/open-api/v1.0/webhooks",
+    "group": "webhooks",
+    "risk": "read",
+    "params": [],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "webhook_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/webhooks/list-webhooks"
+  },
+  {
+    "name": "create_webhook",
+    "operationId": "create-webhook",
+    "title": "Create a webhook",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nCreate a webhook",
+    "method": "POST",
+    "path": "/open-api/v1.0/webhooks",
+    "group": "webhooks",
+    "risk": "destructive",
+    "params": [],
+    "bodySchema": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "allowedTypes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "ORDER_PLACED",
+              "ORDER_UPDATED",
+              "GIFT_PURCHASE",
+              "PRODUCT_CREATED",
+              "PRODUCT_UPDATED",
+              "DONATION",
+              "SUBSCRIPTION_PURCHASED",
+              "SUBSCRIPTION_EXPIRED",
+              "SUBSCRIPTION_CHANGED",
+              "NEWSLETTER_SUBSCRIBED",
+              "THANK_YOU_SENT",
+              "GIFT_DRAW_STARTED",
+              "GIFT_DRAW_ENDED",
+              "PROMOTION_CREATED",
+              "PROMOTION_UPDATED",
+              "PROMOTION_STATUS_CHANGED",
+              "PLATFORM_APP_DISCONNECTED",
+              "MEMBERSHIP_POST_UPSERTED",
+              "MEMBERSHIP_SERIES_UPSERTED",
+              "MEMBERSHIP_SERIES_DELETED",
+              "MEMBERSHIP_TAG_CREATED",
+              "MEMBERSHIP_TAG_UPDATED",
+              "MEMBERSHIP_TAG_DELETED",
+              "MEMBERSHIP_TIER_UPSERTED",
+              "MEMBERSHIP_TIER_DELETED",
+              "COLLECTION_UPDATED",
+              "CART_ABANDONED_1H",
+              "CART_ABANDONED_24H",
+              "CART_ABANDONED_72H"
+            ]
+          }
+        }
+      },
+      "required": [
+        "allowedTypes",
+        "url"
+      ],
+      "title": "Webhook Configuration Create Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "webhook_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/webhooks/create-webhook"
+  },
+  {
+    "name": "list_promotions",
+    "operationId": "list-promotions",
+    "title": "Get all promotions",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns all promotions. The maximum page size is 100 - larger values are capped at 100.",
+    "method": "GET",
+    "path": "/open-api/v1.0/promotions",
+    "group": "promotions",
+    "risk": "read",
+    "params": [
+      {
+        "name": "page",
+        "key": "page",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "default": 0,
+          "description": "Native page",
+          "minimum": 0
+        },
+        "explode": true
+      },
+      {
+        "name": "size",
+        "key": "size",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "default": 20,
+          "description": "Number of elements per page. The maximum page size is 100 - larger values are capped at 100.",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "explode": true
+      },
+      {
+        "name": "codes",
+        "key": "codes",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Filter by promotion code(s)"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": true,
+    "scopes": [
+      {
+        "oauth": [
+          "promotions_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/promotions/list-promotions"
+  },
+  {
+    "name": "create_promotion",
+    "operationId": "create-promotion",
+    "title": "Create a promotion",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nCreates a promotion",
+    "method": "POST",
+    "path": "/open-api/v1.0/promotions",
+    "group": "promotions",
+    "risk": "destructive",
+    "params": [],
+    "bodySchema": {
+      "oneOf": [
+        {
+          "allOf": [
+            {
+              "properties": {
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "title": "Open Api Create Promotion Request"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "codes": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "discount": {
+                  "oneOf": [
+                    {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "title": "Memberships"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "percentage": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "PERCENTAGE"
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "percentage"
+                      ],
+                      "title": "Percentage"
+                    }
+                  ]
+                },
+                "requirements": {
+                  "type": "object",
+                  "properties": {
+                    "newMembersOnly": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "newMembersOnly"
+                  ],
+                  "title": "Memberships"
+                },
+                "subscriptionType": {
+                  "oneOf": [
+                    {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "title": "Open Api Promotion Membership Subscription Type Applies To"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "ALL"
+                            }
+                          }
+                        }
+                      ],
+                      "title": "All Members"
+                    },
+                    {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "title": "Open Api Promotion Membership Subscription Type Applies To"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "ANNUAL"
+                            }
+                          }
+                        }
+                      ],
+                      "title": "Annual Members Only"
+                    },
+                    {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "title": "Open Api Promotion Membership Subscription Type Applies To"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "MONTHLY"
+                            }
+                          }
+                        }
+                      ],
+                      "title": "Monthly Members Only"
+                    }
+                  ]
+                },
+                "tiers": {
+                  "oneOf": [
+                    {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "title": "Open Api Promotion Membership Tiers Applies To"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "ALL"
+                            }
+                          }
+                        }
+                      ],
+                      "title": "All Tiers"
+                    },
+                    {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "title": "Open Api Promotion Membership Tiers Applies To"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "ids": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "SELECTED"
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "ids"
+                      ],
+                      "title": "Selected Tiers"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "MEMBERSHIPS_MULTI"
+                }
+              }
+            }
+          ],
+          "required": [
+            "codes",
+            "discount"
+          ],
+          "title": "MEMBERSHIPS_MULTI"
+        },
+        {
+          "allOf": [
+            {
+              "properties": {
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "title": "Open Api Create Promotion Request"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "discount": {
+                  "oneOf": [
+                    {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "title": "Memberships"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "percentage": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "PERCENTAGE"
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "percentage"
+                      ],
+                      "title": "Percentage"
+                    }
+                  ]
+                },
+                "requirements": {
+                  "type": "object",
+                  "properties": {
+                    "newMembersOnly": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "newMembersOnly"
+                  ],
+                  "title": "Memberships"
+                },
+                "subscriptionType": {
+                  "oneOf": [
+                    {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "title": "Open Api Promotion Membership Subscription Type Applies To"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "ALL"
+                            }
+                          }
+                        }
+                      ],
+                      "title": "All Members"
+                    },
+                    {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "title": "Open Api Promotion Membership Subscription Type Applies To"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "ANNUAL"
+                            }
+                          }
+                        }
+                      ],
+                      "title": "Annual Members Only"
+                    },
+                    {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "title": "Open Api Promotion Membership Subscription Type Applies To"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "MONTHLY"
+                            }
+                          }
+                        }
+                      ],
+                      "title": "Monthly Members Only"
+                    }
+                  ]
+                },
+                "tiers": {
+                  "oneOf": [
+                    {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "title": "Open Api Promotion Membership Tiers Applies To"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "ALL"
+                            }
+                          }
+                        }
+                      ],
+                      "title": "All Tiers"
+                    },
+                    {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "title": "Open Api Promotion Membership Tiers Applies To"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "ids": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "SELECTED"
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "ids"
+                      ],
+                      "title": "Selected Tiers"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "MEMBERSHIPS_SINGLE"
+                }
+              }
+            }
+          ],
+          "required": [
+            "code",
+            "discount"
+          ],
+          "title": "MEMBERSHIPS_SINGLE"
+        },
+        {
+          "allOf": [
+            {
+              "properties": {
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "title": "Open Api Create Promotion Request"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "codes": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "discount": {
+                  "oneOf": [
+                    {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "title": "Shop"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "money": {
+                              "type": "object",
+                              "properties": {
+                                "value": {
+                                  "type": "number",
+                                  "minimum": 0
+                                },
+                                "currency": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "currency",
+                                "value"
+                              ],
+                              "title": "Money"
+                            },
+                            "freeShipping": {
+                              "type": "boolean"
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "FLAT_RATE"
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "freeShipping",
+                        "money"
+                      ],
+                      "title": "Fixed Amount"
+                    },
+                    {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "title": "Shop"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "FREE_SHIPPING"
+                            }
+                          }
+                        }
+                      ],
+                      "title": "Free Shipping"
+                    },
+                    {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "title": "Shop"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "percentage": {
+                              "type": "number"
+                            },
+                            "shipping": {
+                              "type": "string",
+                              "enum": [
+                                "Excluded",
+                                "Included",
+                                "FreeLowestOnly",
+                                "Free"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "PERCENTAGE"
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "percentage",
+                        "shipping"
+                      ],
+                      "title": "Percentage"
+                    }
+                  ]
+                },
+                "requirements": {
+                  "type": "object",
+                  "properties": {
+                    "minimumOrderValue": {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "currency": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "currency",
+                        "value"
+                      ],
+                      "title": "Money"
+                    }
+                  },
+                  "title": "Shop"
+                },
+                "appliesToProducts": {
+                  "type": "object",
+                  "properties": {
+                    "productIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "uuid"
+                      }
+                    },
+                    "oncePerOrder": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "productIds"
+                  ],
+                  "title": "Open Api Promotion Selected Products"
+                },
+                "limits": {
+                  "type": "object",
+                  "properties": {
+                    "maximumUse": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "oneUsePerCustomer": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "oneUsePerCustomer"
+                  ],
+                  "title": "Open Api Promotion Limits"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "SHOP_MULTI"
+                }
+              }
+            }
+          ],
+          "required": [
+            "codes",
+            "discount"
+          ],
+          "title": "SHOP_MULTI"
+        },
+        {
+          "allOf": [
+            {
+              "properties": {
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "title": "Open Api Create Promotion Request"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "discount": {
+                  "oneOf": [
+                    {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "title": "Shop"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "money": {
+                              "type": "object",
+                              "properties": {
+                                "value": {
+                                  "type": "number",
+                                  "minimum": 0
+                                },
+                                "currency": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "currency",
+                                "value"
+                              ],
+                              "title": "Money"
+                            },
+                            "freeShipping": {
+                              "type": "boolean"
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "FLAT_RATE"
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "freeShipping",
+                        "money"
+                      ],
+                      "title": "Fixed Amount"
+                    },
+                    {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "title": "Shop"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "FREE_SHIPPING"
+                            }
+                          }
+                        }
+                      ],
+                      "title": "Free Shipping"
+                    },
+                    {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "title": "Shop"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "percentage": {
+                              "type": "number"
+                            },
+                            "shipping": {
+                              "type": "string",
+                              "enum": [
+                                "Excluded",
+                                "Included",
+                                "FreeLowestOnly",
+                                "Free"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "const": "PERCENTAGE"
+                            }
+                          }
+                        }
+                      ],
+                      "required": [
+                        "percentage",
+                        "shipping"
+                      ],
+                      "title": "Percentage"
+                    }
+                  ]
+                },
+                "requirements": {
+                  "type": "object",
+                  "properties": {
+                    "minimumOrderValue": {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "currency": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "currency",
+                        "value"
+                      ],
+                      "title": "Money"
+                    }
+                  },
+                  "title": "Shop"
+                },
+                "appliesToProducts": {
+                  "type": "object",
+                  "properties": {
+                    "productIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "uuid"
+                      }
+                    },
+                    "oncePerOrder": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "productIds"
+                  ],
+                  "title": "Open Api Promotion Selected Products"
+                },
+                "limits": {
+                  "type": "object",
+                  "properties": {
+                    "maximumUse": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "oneUsePerCustomer": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "oneUsePerCustomer"
+                  ],
+                  "title": "Open Api Promotion Limits"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "SHOP_SINGLE"
+                }
+              }
+            }
+          ],
+          "required": [
+            "code",
+            "discount"
+          ],
+          "title": "SHOP_SINGLE"
+        }
+      ]
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "promotions_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/promotions/create-promotion"
+  },
+  {
+    "name": "list_products",
+    "operationId": "list-products",
+    "title": "Get all products (offers)",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns all products with pagination. The maximum page size is 100 - larger values are capped at 100.",
+    "method": "GET",
+    "path": "/open-api/v1.0/products",
+    "group": "products (offers)",
+    "risk": "read",
+    "params": [
+      {
+        "name": "page",
+        "key": "page",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "default": 0,
+          "description": "Native page",
+          "minimum": 0
+        },
+        "explode": true
+      },
+      {
+        "name": "size",
+        "key": "size",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "default": 20,
+          "description": "Number of elements per page. The maximum page size is 100 - larger values are capped at 100.",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "explode": true
+      },
+      {
+        "name": "search",
+        "key": "search",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "description": "Native search"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": true,
+    "scopes": [
+      {
+        "oauth": [
+          "offer_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/products/list-products"
+  },
+  {
+    "name": "create_product",
+    "operationId": "create-product",
+    "title": "Create a product",
+    "description": "*Rate limit: 5 requests / minute per shop. See [Rate limiting](/guides/rate-limiting).*\n\nCreates a product from a design or a digital product.",
+    "method": "POST",
+    "path": "/open-api/v1.0/products",
+    "group": "products (offers)",
+    "risk": "destructive",
+    "params": [],
+    "bodySchema": {
+      "type": "object",
+      "description": "Request to create a product. The shape is discriminated by the `type` field.",
+      "oneOf": [
+        {
+          "allOf": [
+            {
+              "type": "object",
+              "description": "Request to create a product. The shape is discriminated by the `type` field.",
+              "properties": {
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "title": "Create Product Request"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "productTemplateId": {
+                  "type": "string",
+                  "description": "Id of the product template to render the design onto, from `GET /open-api/v1.0/product-templates`."
+                },
+                "regions": {
+                  "type": "array",
+                  "description": "Design regions to place on the product. Each region references a registered media image by id (register it via `POST /open-api/v1.0/media/images` and pass the returned id as `imageId`).",
+                  "items": {
+                    "type": "object",
+                    "description": "A product region paired with the registered media image to render on it.",
+                    "properties": {
+                      "region": {
+                        "type": "string",
+                        "description": "Name of the product region to place the image on, e.g. `front` or `back`."
+                      },
+                      "imageId": {
+                        "type": "string",
+                        "description": "Id of a registered media-library image to render on the region. Register the image first via `POST /open-api/v1.0/media/images` and pass the returned id here."
+                      },
+                      "placementId": {
+                        "type": "string",
+                        "description": "Placement to target when `placementStrategy` is `PLACEMENT_ID`. Required for that strategy and ignored by the others."
+                      },
+                      "placementStrategy": {
+                        "type": "string",
+                        "description": "How the image is placed on the region. Defaults to `AUTO` when omitted, and takes precedence over `placementId`/`fillAllPlacements`.\n- `AUTO` \u2014 let the renderer decide using the product's automation defaults (its preferred placement, or fill-all for products like mugs/stickers).\n- `FILL_ALL` \u2014 apply the image to every placement in the region.\n- `FULL_REGION` \u2014 render the image across the full region, skipping the preferred placement.\n- `PLACEMENT_ID` \u2014 target the single placement named by `placementId` (required for this strategy).",
+                        "enum": [
+                          "AUTO",
+                          "FILL_ALL",
+                          "FULL_REGION",
+                          "PLACEMENT_ID"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "imageId",
+                      "region"
+                    ],
+                    "title": "Product Design Region"
+                  }
+                },
+                "colors": {
+                  "type": "array",
+                  "description": "Colors to render. Defaults to all available product colors when omitted. Values not offered by the product are ignored; the request is rejected with 400 if none of the supplied colors are available.",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "sizes": {
+                  "type": "array",
+                  "description": "Sizes to include. Defaults to all available product sizes when omitted. Values not offered by the product are ignored; the request is rejected with 400 if none of the supplied sizes are available. When both colors and sizes are supplied, the request is also rejected with 400 if no requested color/size combination is an available variant.",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Product name"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Product description"
+                },
+                "profitMargin": {
+                  "type": "number",
+                  "description": "Profit margin in USD applied on top of the base cost."
+                },
+                "publishOnCreate": {
+                  "type": "boolean",
+                  "description": "Publish the product immediately on creation. Defaults to false (product stays hidden)."
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "const": "design"
+                }
+              }
+            }
+          ],
+          "description": "Create a product by running the design pipeline: renders each region's registered image into mockups and creates a purchasable product. The product is created hidden unless `publishOnCreate` is true.",
+          "required": [
+            "name",
+            "productTemplateId",
+            "regions",
+            "type"
+          ],
+          "title": "Create Design Product Request"
+        },
+        {
+          "allOf": [
+            {
+              "type": "object",
+              "description": "Request to create a product. The shape is discriminated by the `type` field.",
+              "properties": {
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "title": "Create Product Request"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Product name"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Product description"
+                },
+                "price": {
+                  "type": "number",
+                  "description": "Price set by the creator, in USD."
+                },
+                "publishOnCreate": {
+                  "type": "boolean",
+                  "description": "Publish the product immediately on creation. Defaults to false (product stays hidden)."
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "const": "digital"
+                }
+              }
+            }
+          ],
+          "description": "Create a digital product with a creator-set price in USD and digital fulfillment. Attach files and images via the /products/{productId}/digital-files and /products/{productId}/images endpoints.",
+          "required": [
+            "description",
+            "name",
+            "price",
+            "type"
+          ],
+          "title": "Create Digital Product Request"
+        }
+      ],
+      "properties": {
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "Create Product Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "offer_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      201
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 5,
+      "periodSeconds": 60,
+      "dimension": "shopId",
+      "cacheName": "open-api-heavy-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-heavy-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 5,
+          "periodSeconds": 60,
+          "dimension": "shopId"
+        },
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "attach_product_images",
+    "operationId": "attach-product-images",
+    "title": "Attach images to a product",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nAttaches images to a product. Images should be uploaded first via the media upload endpoint.",
+    "method": "POST",
+    "path": "/open-api/v1.0/products/{productId}/images",
+    "group": "digital products",
+    "risk": "destructive",
+    "params": [
+      {
+        "name": "productId",
+        "key": "product_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native productId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": {
+      "type": "object",
+      "description": "Request to attach images to a product",
+      "properties": {
+        "images": {
+          "type": "array",
+          "description": "List of images to attach",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "description": "Image URL"
+              },
+              "width": {
+                "type": "integer",
+                "format": "int32",
+                "description": "Image width in pixels"
+              },
+              "height": {
+                "type": "integer",
+                "format": "int32",
+                "description": "Image height in pixels"
+              }
+            },
+            "required": [
+              "height",
+              "url",
+              "width"
+            ],
+            "title": "Image Input"
+          }
+        }
+      },
+      "required": [
+        "images"
+      ],
+      "title": "Attach Product Images Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "offer_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      201
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "remove_product_images",
+    "operationId": "remove-product-images",
+    "title": "Remove images from a product",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nRemoves specified images from a product by their URLs.",
+    "method": "DELETE",
+    "path": "/open-api/v1.0/products/{productId}/images",
+    "group": "digital products",
+    "risk": "destructive",
+    "params": [
+      {
+        "name": "productId",
+        "key": "product_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native productId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": {
+      "type": "object",
+      "description": "Request to remove images from a product",
+      "properties": {
+        "imageUrls": {
+          "type": "array",
+          "description": "List of image URLs to remove",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "imageUrls"
+      ],
+      "title": "Remove Product Images Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "offer_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "confirm_digital_file_upload",
+    "operationId": "confirm-digital-file-upload",
+    "title": "Confirm and link an uploaded digital file",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nAfter uploading a file to the presigned URL, call this endpoint to link the file to the product. The file must exist in storage before calling this endpoint.",
+    "method": "POST",
+    "path": "/open-api/v1.0/products/{productId}/digital-files",
+    "group": "digital products",
+    "risk": "destructive",
+    "params": [
+      {
+        "name": "productId",
+        "key": "product_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native productId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": {
+      "type": "object",
+      "description": "Request to confirm and link an uploaded digital file to an offer",
+      "properties": {
+        "fileUrl": {
+          "type": "string",
+          "description": "The file URL returned from the upload-url endpoint"
+        },
+        "fileName": {
+          "type": "string",
+          "description": "Display name for the file"
+        }
+      },
+      "required": [
+        "fileName",
+        "fileUrl"
+      ],
+      "title": "Confirm Digital File Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "offer_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      201
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "remove_digital_file",
+    "operationId": "remove-digital-file",
+    "title": "Remove a digital file from a product",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nRemoves a digital file from the product by its file URL.",
+    "method": "DELETE",
+    "path": "/open-api/v1.0/products/{productId}/digital-files",
+    "group": "digital products",
+    "risk": "destructive",
+    "params": [
+      {
+        "name": "productId",
+        "key": "product_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native productId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": {
+      "type": "object",
+      "properties": {
+        "fileUrl": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "fileUrl"
+      ],
+      "title": "Remove Digital File Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "offer_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "request_digital_file_upload_url",
+    "operationId": "request-digital-file-upload-url",
+    "title": "Request a presigned upload URL for a digital file",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns a presigned URL to upload a digital file to. After receiving the response, PUT the file bytes directly to the uploadUrl, then call the confirm endpoint to link the file to the product.",
+    "method": "POST",
+    "path": "/open-api/v1.0/products/{productId}/digital-files/upload-url",
+    "group": "digital products",
+    "risk": "destructive",
+    "params": [
+      {
+        "name": "productId",
+        "key": "product_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native productId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": {
+      "type": "object",
+      "description": "Request for a presigned upload URL for a digital file",
+      "properties": {
+        "fileName": {
+          "type": "string",
+          "description": "Name of the file"
+        },
+        "contentType": {
+          "type": "string",
+          "description": "MIME type of the file"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Size of the file in bytes. Must match the `x-goog-content-length-range` header sent when uploading the bytes to `uploadUrl`."
+        }
+      },
+      "required": [
+        "contentType",
+        "fileName",
+        "size"
+      ],
+      "title": "Digital File Upload Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": true,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "offer_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      201
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "request_media_upload_url",
+    "operationId": "request-media-upload-url",
+    "title": "Request a pre-signed upload URL",
+    "description": "*Rate limit: 20 requests / minute per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns a pre-signed upload URL for uploading a new image. After receiving the response, PUT the image bytes directly to the uploadUrl.",
+    "method": "POST",
+    "path": "/open-api/v1.0/media/upload-url",
+    "group": "media library",
+    "risk": "destructive",
+    "params": [],
+    "bodySchema": {
+      "type": "object",
+      "properties": {
+        "fileName": {
+          "type": "string",
+          "description": "Name of the file"
+        },
+        "contentType": {
+          "type": "string",
+          "description": "MIME type of the file"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Size of the file in bytes. Must match the `x-goog-content-length-range` header sent when uploading the bytes to `uploadUrl`."
+        }
+      },
+      "required": [
+        "contentType",
+        "fileName",
+        "size"
+      ],
+      "title": "Request Upload Url"
+    },
+    "bodyRequired": true,
+    "privateOutput": true,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "media_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      201
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 20,
+      "periodSeconds": 60,
+      "dimension": "shopId",
+      "cacheName": "open-api-medium-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-medium-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 20,
+          "periodSeconds": 60,
+          "dimension": "shopId"
+        },
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "list_media_images",
+    "operationId": "list-media-images",
+    "title": "List media library images",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nRetrieves all images from the shop's media library",
+    "method": "GET",
+    "path": "/open-api/v1.0/media/images",
+    "group": "media library",
+    "risk": "read",
+    "params": [],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "media_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "save_media_image",
+    "operationId": "save-media-image",
+    "title": "Save an uploaded image to the media library",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nPersists an uploaded image in the media library after the client has PUT it to the signed URL",
+    "method": "POST",
+    "path": "/open-api/v1.0/media/images",
+    "group": "media library",
+    "risk": "destructive",
+    "params": [],
+    "bodySchema": {
+      "type": "object",
+      "properties": {
+        "fileUrl": {
+          "type": "string"
+        },
+        "width": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "height": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "fileUrl",
+        "height",
+        "width"
+      ],
+      "title": "Save Media Image Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "media_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      201
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "create_giveaway",
+    "operationId": "create-giveaway",
+    "title": "Create a new giveaway",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nCreates a new giveaway",
+    "method": "POST",
+    "path": "/open-api/v1.0/giveaways/giveaways",
+    "group": "giveaways",
+    "risk": "destructive",
+    "params": [],
+    "bodySchema": {
+      "type": "object",
+      "properties": {
+        "offerId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "username": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "offerId",
+        "quantity"
+      ],
+      "title": "Create Giveaway X Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "giveaway_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "create_giveaway_links",
+    "operationId": "create-giveaway-links",
+    "title": "Create giveaway links",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nCreates a new package with specified number of giveaway links",
+    "method": "POST",
+    "path": "/open-api/v1.0/giveaway-links",
+    "group": "giveaway links",
+    "risk": "destructive",
+    "params": [],
+    "bodySchema": {
+      "type": "object",
+      "properties": {
+        "productId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "number",
+        "productId"
+      ],
+      "title": "Create Giveaway Links V1Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "giveaway_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/giveaway-links/create-giveaway-links"
+  },
+  {
+    "name": "create_gifting_checkout",
+    "operationId": "create-gifting-checkout",
+    "title": "Create a gifting checkout",
+    "description": "Creates a paid checkout for gifting a product to live chat",
+    "method": "POST",
+    "path": "/open-api/v1.0/gifting/checkout",
+    "group": "gifting",
+    "risk": "destructive",
+    "params": [],
+    "bodySchema": {
+      "type": "object",
+      "properties": {
+        "offerId": {
+          "type": "string",
+          "description": "The product offer to gift to live chat."
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32",
+          "description": "How many gifts to purchase.",
+          "maximum": 10000,
+          "minimum": 1
+        },
+        "currency": {
+          "type": "string",
+          "description": "Display currency for the checkout. Defaults to the shop's currency.",
+          "enum": [
+            "USD",
+            "EUR",
+            "CAD",
+            "GBP",
+            "AUD",
+            "NZD",
+            "SEK",
+            "NOK",
+            "DKK",
+            "PLN",
+            "INR",
+            "JPY",
+            "MYR",
+            "SGD",
+            "MXN",
+            "BRL",
+            "CHF"
+          ]
+        }
+      },
+      "required": [
+        "offerId",
+        "quantity"
+      ],
+      "title": "Create Gifting Checkout V1Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "giveaway_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      201
+    ],
+    "emptySuccess": false,
+    "rateLimit": {},
+    "source": "https://docs.fourthwall.com/api-reference/platform/gifting/create-gifting-checkout"
+  },
+  {
+    "name": "create_fulfillment",
+    "operationId": "create-fulfillment",
+    "title": "Create a fulfillment for an order",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nCreates a fulfillment with a shipment tracker for provided order items. When trackers change their state, order.status will change to IN_PRODUCTION, PARTIALLY_IN_PRODUCTION, PARTIALLY_SHIPPED, SHIPPED depending on the shipping tracker info. Order updated webhooks will be triggered.",
+    "method": "POST",
+    "path": "/open-api/v1.0/fulfillments",
+    "group": "fulfillment",
+    "risk": "destructive",
+    "params": [],
+    "bodySchema": {
+      "type": "object",
+      "properties": {
+        "orderId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "variantId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "quantity": {
+                "type": "integer",
+                "format": "int32",
+                "minimum": 1
+              }
+            },
+            "required": [
+              "quantity",
+              "variantId"
+            ],
+            "title": "Fulfillment Item"
+          },
+          "minItems": 1
+        },
+        "shippingLabel": {
+          "type": "object",
+          "properties": {
+            "trackingNumber": {
+              "type": "string",
+              "minLength": 1
+            },
+            "trackingCompany": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "trackingCompany",
+            "trackingNumber"
+          ],
+          "title": "Shipping Label"
+        }
+      },
+      "required": [
+        "items",
+        "orderId",
+        "shippingLabel"
+      ],
+      "title": "Fulfillment Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "fulfillment_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      201
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/fulfillment/create-fulfillment"
+  },
+  {
+    "name": "validate_dns",
+    "operationId": "validate-dns",
+    "title": "Validate DNS records",
+    "description": "*Rate limit: 20 requests / minute per shop. See [Rate limiting](/guides/rate-limiting).*\n\nTriggers a live DNS validation by checking all configured records against actual DNS servers and updates their verification status",
+    "method": "POST",
+    "path": "/open-api/v1.0/dns/validate",
+    "group": "dns",
+    "risk": "destructive",
+    "params": [],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "dns_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 20,
+      "periodSeconds": 60,
+      "dimension": "shopId",
+      "cacheName": "open-api-medium-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-medium-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 20,
+          "periodSeconds": 60,
+          "dimension": "shopId"
+        },
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "list_collections",
+    "operationId": "list-collections",
+    "title": "Get all collections",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns all collections with pagination. The maximum page size is 100 - larger values are capped at 100.",
+    "method": "GET",
+    "path": "/open-api/v1.0/collections",
+    "group": "collections",
+    "risk": "read",
+    "params": [
+      {
+        "name": "page",
+        "key": "page",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "default": 0,
+          "description": "Native page",
+          "minimum": 0
+        },
+        "explode": true
+      },
+      {
+        "name": "size",
+        "key": "size",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "default": 20,
+          "description": "Number of elements per page. The maximum page size is 100 - larger values are capped at 100.",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "explode": true
+      },
+      {
+        "name": "search",
+        "key": "search",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "description": "Native search"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": true,
+    "scopes": [
+      {
+        "oauth": [
+          "offer_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/collections/list-collections"
+  },
+  {
+    "name": "create_collection",
+    "operationId": "create-collection",
+    "title": "Create a new collection",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nCreates a new collection with name, description, and optional product list",
+    "method": "POST",
+    "path": "/open-api/v1.0/collections",
+    "group": "collections",
+    "risk": "destructive",
+    "params": [],
+    "bodySchema": {
+      "type": "object",
+      "description": "Request to create a new collection",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "offerIds": {
+          "type": "array",
+          "description": "List of product IDs to include in the collection",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "required": [
+        "description",
+        "name",
+        "offerIds"
+      ],
+      "title": "Create Collection V1Request"
+    },
+    "bodyRequired": true,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "offer_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/collections/create-collection"
+  },
+  {
+    "name": "list_webhook_events",
+    "operationId": "list-webhook-events",
+    "title": "Get webhook events",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nGet webhook events with pagination and optional filtering by one or more webhook types (repeat or comma-separate the `type` param). The maximum page size is 100 - larger values are capped at 100.",
+    "method": "GET",
+    "path": "/open-api/v1.0/webhook-events",
+    "group": "webhooks",
+    "risk": "read",
+    "params": [
+      {
+        "name": "type",
+        "key": "type",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "ORDER_PLACED",
+              "ORDER_UPDATED",
+              "GIFT_PURCHASE",
+              "PRODUCT_CREATED",
+              "PRODUCT_UPDATED",
+              "DONATION",
+              "SUBSCRIPTION_PURCHASED",
+              "SUBSCRIPTION_EXPIRED",
+              "SUBSCRIPTION_CHANGED",
+              "NEWSLETTER_SUBSCRIBED",
+              "THANK_YOU_SENT",
+              "GIFT_DRAW_STARTED",
+              "GIFT_DRAW_ENDED",
+              "PROMOTION_CREATED",
+              "PROMOTION_UPDATED",
+              "PROMOTION_STATUS_CHANGED",
+              "PLATFORM_APP_DISCONNECTED",
+              "MEMBERSHIP_POST_UPSERTED",
+              "MEMBERSHIP_SERIES_UPSERTED",
+              "MEMBERSHIP_SERIES_DELETED",
+              "MEMBERSHIP_TAG_CREATED",
+              "MEMBERSHIP_TAG_UPDATED",
+              "MEMBERSHIP_TAG_DELETED",
+              "MEMBERSHIP_TIER_UPSERTED",
+              "MEMBERSHIP_TIER_DELETED",
+              "COLLECTION_UPDATED",
+              "CART_ABANDONED_1H",
+              "CART_ABANDONED_24H",
+              "CART_ABANDONED_72H"
+            ]
+          },
+          "description": "Native type"
+        },
+        "explode": true
+      },
+      {
+        "name": "page",
+        "key": "page",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "default": 0,
+          "description": "Native page",
+          "minimum": 0
+        },
+        "explode": true
+      },
+      {
+        "name": "size",
+        "key": "size",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "default": 50,
+          "description": "Number of elements per page. The maximum page size is 100 - larger values are capped at 100.",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": true,
+    "scopes": [
+      {
+        "oauth": [
+          "webhook_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/webhooks/list-webhook-events"
+  },
+  {
+    "name": "get_webhook_event",
+    "operationId": "get-webhook-event",
+    "title": "Get a webhook event",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nGet a single webhook event by ID",
+    "method": "GET",
+    "path": "/open-api/v1.0/webhook-events/{webhookEventId}",
+    "group": "webhooks",
+    "risk": "read",
+    "params": [
+      {
+        "name": "webhookEventId",
+        "key": "webhook_event_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native webhookEventId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "webhook_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/webhooks/get-webhook-event"
+  },
+  {
+    "name": "get_thank_you",
+    "operationId": "get-thank-you",
+    "title": "Get Thank You by id",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nGet Thank You details",
+    "method": "GET",
+    "path": "/open-api/v1.0/thank-yous/{thankYouId}",
+    "group": "thank yous",
+    "risk": "read",
+    "params": [
+      {
+        "name": "thankYouId",
+        "key": "thank_you_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native thankYouId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "thankyou_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/thank-yous/get-thank-you"
+  },
+  {
+    "name": "list_contributions",
+    "operationId": "list-contributions",
+    "title": "Get contributions awaiting thank you",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns paginated list of orders, donations, and other contributions that can be thanked. The maximum page size is 100 - larger values are capped at 100.",
+    "method": "GET",
+    "path": "/open-api/v1.0/thank-you-contributions",
+    "group": "thank yous",
+    "risk": "read",
+    "params": [
+      {
+        "name": "page",
+        "key": "page",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "default": 0,
+          "description": "Native page",
+          "minimum": 0
+        },
+        "explode": true
+      },
+      {
+        "name": "size",
+        "key": "size",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "default": 50,
+          "description": "Number of elements per page. The maximum page size is 100 - larger values are capped at 100.",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "explode": true
+      },
+      {
+        "name": "state",
+        "key": "state",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "WAITING",
+              "SKIPPED",
+              "SENT",
+              "CANCELLED"
+            ]
+          },
+          "uniqueItems": true,
+          "description": "Native state"
+        },
+        "explode": true
+      },
+      {
+        "name": "search",
+        "key": "search",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "description": "Native search"
+        },
+        "explode": true
+      },
+      {
+        "name": "minValue",
+        "key": "min_value",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "number",
+          "format": "double",
+          "description": "Native minValue"
+        },
+        "explode": true
+      },
+      {
+        "name": "containsMsg",
+        "key": "contains_msg",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "boolean",
+          "description": "Native containsMsg"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": true,
+    "scopes": [
+      {
+        "oauth": [
+          "thankyou_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/thank-yous/list-contributions"
+  },
+  {
+    "name": "get_streaming_status",
+    "operationId": "get-streaming-status",
+    "title": "Get streaming status",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns streaming status for all services",
+    "method": "GET",
+    "path": "/open-api/v1.0/streaming",
+    "group": "streaming",
+    "risk": "read",
+    "params": [],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "giveaway_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/streaming/get-streaming-status"
+  },
+  {
+    "name": "get_shop",
+    "operationId": "get-current-shop",
+    "title": "Get current shop",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns the current shop",
+    "method": "GET",
+    "path": "/open-api/v1.0/shops/current",
+    "group": "shop",
+    "risk": "read",
+    "params": [],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": []
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/shop/get-current-shop"
+  },
+  {
+    "name": "get_shop_contact",
+    "operationId": "get-shop-contact-info",
+    "title": "Get current shop contact info",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns the current shop contact info",
+    "method": "GET",
+    "path": "/open-api/v1.0/shops/current/contact-info",
+    "group": "shop",
+    "risk": "read",
+    "params": [],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "shop_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/shop/get-shop-contact-info"
+  },
+  {
+    "name": "get_sample_balance",
+    "operationId": "get-sample-balance",
+    "title": "Get sample credit balance",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns the current sample credit balance for the shop",
+    "method": "GET",
+    "path": "/open-api/v1.0/samples/balance",
+    "group": "sample credits",
+    "risk": "read",
+    "params": [],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "samples_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "list_reports",
+    "operationId": "list-reports",
+    "title": "List available reports",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns the list of available report IDs with metadata including name, columns, and supported precisions",
+    "method": "GET",
+    "path": "/open-api/v1.0/reports",
+    "group": "analytics reports",
+    "risk": "read",
+    "params": [],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "analytics_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "get_report",
+    "operationId": "get-report",
+    "title": "Get a report",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nFetches a specific analytics report for a date range",
+    "method": "GET",
+    "path": "/open-api/v1.0/reports/{reportId}",
+    "group": "analytics reports",
+    "risk": "read",
+    "params": [
+      {
+        "name": "reportId",
+        "key": "report_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native reportId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      },
+      {
+        "name": "from",
+        "key": "from",
+        "location": "query",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Native from"
+        },
+        "explode": true
+      },
+      {
+        "name": "to",
+        "key": "to",
+        "location": "query",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Native to"
+        },
+        "explode": true
+      },
+      {
+        "name": "aggregationTimezone",
+        "key": "aggregation_timezone",
+        "location": "query",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Timezone in ISO-8601 format (e.g., Europe/Warsaw for Warsaw)"
+        },
+        "explode": true
+      },
+      {
+        "name": "aggregationPrecision",
+        "key": "aggregation_precision",
+        "location": "query",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "hour",
+            "day",
+            "week",
+            "month",
+            "quarter",
+            "year"
+          ],
+          "description": "Native aggregationPrecision"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "analytics_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "get_product",
+    "operationId": "get-product",
+    "title": "Get product (offer) by id",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns product by id",
+    "method": "GET",
+    "path": "/open-api/v1.0/products/{productId}",
+    "group": "products (offers)",
+    "risk": "read",
+    "params": [
+      {
+        "name": "productId",
+        "key": "product_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native productId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "offer_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/products/get-product"
+  },
+  {
+    "name": "archive_product",
+    "operationId": "archive-product",
+    "title": "Archive a product (offer)",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nSoft-archives the product \u2014 sets it to `Archived`. Terminal at this surface: once archived, the product cannot be returned to `PUBLIC`/`HIDDEN` through the open-api (restoration stays admin-only). Idempotent: re-DELETE on an already-archived product also returns 204.",
+    "method": "DELETE",
+    "path": "/open-api/v1.0/products/{productId}",
+    "group": "products (offers)",
+    "risk": "destructive",
+    "params": [
+      {
+        "name": "productId",
+        "key": "product_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native productId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "offer_write"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      204
+    ],
+    "emptySuccess": true,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "get_product_inventory",
+    "operationId": "get-product-inventory",
+    "title": "Get product (offer) inventory by id",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns product (offer) inventory by id",
+    "method": "GET",
+    "path": "/open-api/v1.0/products/{productId}/inventory",
+    "group": "products (offers)",
+    "risk": "read",
+    "params": [
+      {
+        "name": "productId",
+        "key": "product_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native productId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "offer_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/products/get-product-inventory"
+  },
+  {
+    "name": "list_product_templates",
+    "operationId": "list-product-templates",
+    "title": "List product templates",
+    "description": "List available product templates. Returns 25 results. To paginate, use the /page/{N} variant of this endpoint (1-indexed). Use the total field in the response to calculate total pages. Pagination is path-based for HTTP cacheability.",
+    "method": "GET",
+    "path": "/open-api/v1.0/product-templates",
+    "group": "product templates",
+    "risk": "read",
+    "params": [],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {},
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "get_product_template",
+    "operationId": "get-product-template",
+    "title": "Get product template details",
+    "description": "\n            Get detailed information about a specific product template.\n\n            This endpoint is public and does not require authentication.\n            Returns full product details including variants, customizable areas,\n            size guide, and images.\n        ",
+    "method": "GET",
+    "path": "/open-api/v1.0/product-templates/{productId}",
+    "group": "product templates",
+    "risk": "read",
+    "params": [
+      {
+        "name": "productId",
+        "key": "product_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Product template ID",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {},
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "search_product_templates",
+    "operationId": "search-product-templates",
+    "title": "Search product templates",
+    "description": "Search product templates by name, brand, description, sizes, categories, colors, or production method. Returns 25 results. To paginate, use the /search/{query}/page/{N} variant of this endpoint (1-indexed). Use the total field in the response to calculate total pages. Pagination is path-based for HTTP cacheability.",
+    "method": "GET",
+    "path": "/open-api/v1.0/product-templates/search/{query}",
+    "group": "product templates",
+    "risk": "read",
+    "params": [
+      {
+        "name": "query",
+        "key": "query",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Search query (e.g., 'hoodie', 'black%20t-shirt')",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {},
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "search_product_templates_paged",
+    "operationId": "search-product-templates-paged",
+    "title": "Search product templates by page",
+    "description": "Search product templates with pagination. This endpoint is public and does not require authentication.",
+    "method": "GET",
+    "path": "/open-api/v1.0/product-templates/search/{query}/page/{page}",
+    "group": "product templates",
+    "risk": "read",
+    "params": [
+      {
+        "name": "query",
+        "key": "query",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Search query (e.g., 'hoodie', 'black%20t-shirt')",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      },
+      {
+        "name": "page",
+        "key": "page",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Page number (1-indexed)",
+          "minimum": 1
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {},
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "search_product_templates_grouped",
+    "operationId": "search-product-templates-grouped",
+    "title": "Search product templates grouped by product family",
+    "description": "Search product templates and group results by product family (libraryId). Products sharing the same physical item but with different production methods (e.g. DTG, Embroidery, DTFX) are collapsed into a single result with a variants list. Returns 25 grouped results. To paginate, use the /search-grouped/{query}/page/{N} variant (1-indexed). Pagination is path-based for HTTP cacheability.",
+    "method": "GET",
+    "path": "/open-api/v1.0/product-templates/search-grouped/{query}",
+    "group": "product templates",
+    "risk": "read",
+    "params": [
+      {
+        "name": "query",
+        "key": "query",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Search query (e.g., 'hoodie', 'black%20t-shirt')",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {},
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "search_product_templates_grouped_paged",
+    "operationId": "search-product-templates-grouped-paged",
+    "title": "Search product templates grouped by product family by page",
+    "description": "Search product templates grouped by product family with pagination. This endpoint is public and does not require authentication.",
+    "method": "GET",
+    "path": "/open-api/v1.0/product-templates/search-grouped/{query}/page/{page}",
+    "group": "product templates",
+    "risk": "read",
+    "params": [
+      {
+        "name": "query",
+        "key": "query",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Search query (e.g., 'hoodie', 'black%20t-shirt')",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      },
+      {
+        "name": "page",
+        "key": "page",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Page number (1-indexed)",
+          "minimum": 1
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {},
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "list_product_templates_paged",
+    "operationId": "list-product-templates-paged",
+    "title": "List product templates by page",
+    "description": "List available product templates with pagination. This endpoint is public and does not require authentication.",
+    "method": "GET",
+    "path": "/open-api/v1.0/product-templates/page/{page}",
+    "group": "product templates",
+    "risk": "read",
+    "params": [
+      {
+        "name": "page",
+        "key": "page",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Page number (1-indexed)",
+          "minimum": 1
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {},
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "list_product_templates_by_category",
+    "operationId": "list-product-templates-by-category",
+    "title": "Browse product templates by category",
+    "description": "Browse product templates filtered by category. Category matches by prefix (e.g., 'Apparel' matches 'Apparel/T-Shirts'). Returns 25 results. To paginate, use the /category/{category}/page/{N} variant of this endpoint (1-indexed). Use the total field in the response to calculate total pages. Pagination is path-based for HTTP cacheability.",
+    "method": "GET",
+    "path": "/open-api/v1.0/product-templates/category/{category}",
+    "group": "product templates",
+    "risk": "read",
+    "params": [
+      {
+        "name": "category",
+        "key": "category",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "Apparel",
+            "Accessories",
+            "Home & Living"
+          ],
+          "description": "Category path. Top-level: Apparel, Accessories, Home & Living. Subcategory paths like 'Apparel/T-Shirts' are also valid.",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {},
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "list_product_templates_by_category_paged",
+    "operationId": "list-product-templates-by-category-paged",
+    "title": "Browse product templates by category by page",
+    "description": "Browse product templates by category with pagination. This endpoint is public and does not require authentication.",
+    "method": "GET",
+    "path": "/open-api/v1.0/product-templates/category/{category}/page/{page}",
+    "group": "product templates",
+    "risk": "read",
+    "params": [
+      {
+        "name": "category",
+        "key": "category",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "Apparel",
+            "Accessories",
+            "Home & Living"
+          ],
+          "description": "Category path. Top-level: Apparel, Accessories, Home & Living. Subcategory paths like 'Apparel/T-Shirts' are also valid.",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      },
+      {
+        "name": "page",
+        "key": "page",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Page number (1-indexed)",
+          "minimum": 1
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {},
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "get_pro_subscription",
+    "operationId": "get-pro-subscription",
+    "title": "Get Pro subscription status",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns the current Fourthwall Pro platform subscription status, plan, and usage against plan limits",
+    "method": "GET",
+    "path": "/open-api/v1.0/pro-subscription",
+    "group": "pro subscription",
+    "risk": "read",
+    "params": [],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "settings_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "list_orders",
+    "operationId": "list-orders",
+    "title": "Get all orders",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns all orders with pagination. The maximum page size is 100 - larger values are capped at 100.",
+    "method": "GET",
+    "path": "/open-api/v1.0/order",
+    "group": "orders",
+    "risk": "read",
+    "params": [
+      {
+        "name": "page",
+        "key": "page",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "default": 0,
+          "description": "Native page",
+          "minimum": 0
+        },
+        "explode": true
+      },
+      {
+        "name": "size",
+        "key": "size",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "default": 20,
+          "description": "Number of elements per page. The maximum page size is 100 - larger values are capped at 100.",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "explode": true
+      },
+      {
+        "name": "email",
+        "key": "email",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "description": "Native email"
+        },
+        "explode": true
+      },
+      {
+        "name": "createdAt[gt]",
+        "key": "created_at_gt",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Native createdAt[gt]"
+        },
+        "explode": true
+      },
+      {
+        "name": "createdAt[lt]",
+        "key": "created_at_lt",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Native createdAt[lt]"
+        },
+        "explode": true
+      },
+      {
+        "name": "updatedAt[gt]",
+        "key": "updated_at_gt",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Native updatedAt[gt]"
+        },
+        "explode": true
+      },
+      {
+        "name": "updatedAt[lt]",
+        "key": "updated_at_lt",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Native updatedAt[lt]"
+        },
+        "explode": true
+      },
+      {
+        "name": "status",
+        "key": "status",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "CONFIRMED",
+              "PARTIALLY_IN_PRODUCTION",
+              "IN_PRODUCTION",
+              "PARTIALLY_SHIPPED",
+              "SHIPPED",
+              "PARTIALLY_DELIVERED",
+              "DELIVERED",
+              "CANCELLED",
+              "COMPLETED"
+            ]
+          },
+          "uniqueItems": true,
+          "description": "Native status"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": true,
+    "scopes": [
+      {
+        "oauth": [
+          "order_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/orders/list-orders"
+  },
+  {
+    "name": "get_order",
+    "operationId": "get-order",
+    "title": "Get order by id",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns order by id",
+    "method": "GET",
+    "path": "/open-api/v1.0/order/{orderId}",
+    "group": "orders",
+    "risk": "read",
+    "params": [
+      {
+        "name": "orderId",
+        "key": "order_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native orderId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "order_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/orders/get-order"
+  },
+  {
+    "name": "get_order_by_friendly_id",
+    "operationId": "get-order-by-friendly-id",
+    "title": "Get order by friendly id",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns order by friendly id",
+    "method": "GET",
+    "path": "/open-api/v1.0/order/by-friendly-id/{friendlyId}",
+    "group": "orders",
+    "risk": "read",
+    "params": [
+      {
+        "name": "friendlyId",
+        "key": "friendly_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native friendlyId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "order_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/orders/get-order-by-friendly-id"
+  },
+  {
+    "name": "list_membership_tiers",
+    "operationId": "list-tiers",
+    "title": "List membership tiers",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nLists all tiers for the current shop",
+    "method": "GET",
+    "path": "/open-api/v1.0/memberships/tiers",
+    "group": "beta: memberships",
+    "risk": "read",
+    "params": [],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "memberships_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/memberships/list-tiers"
+  },
+  {
+    "name": "list_members",
+    "operationId": "list-members",
+    "title": "List members",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nLists all members for the current shop. The maximum page size is 100 - larger values are capped at 100.",
+    "method": "GET",
+    "path": "/open-api/v1.0/memberships/members",
+    "group": "beta: memberships",
+    "risk": "read",
+    "params": [
+      {
+        "name": "page",
+        "key": "page",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "default": 0,
+          "description": "Native page",
+          "minimum": 0
+        },
+        "explode": true
+      },
+      {
+        "name": "size",
+        "key": "size",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "default": 20,
+          "description": "Number of elements per page. The maximum page size is 100 - larger values are capped at 100.",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": true,
+    "scopes": [
+      {
+        "oauth": [
+          "memberships_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/memberships/list-members"
+  },
+  {
+    "name": "get_member",
+    "operationId": "get-member",
+    "title": "Get member",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nGets a member by id",
+    "method": "GET",
+    "path": "/open-api/v1.0/memberships/members/{id}",
+    "group": "beta: memberships",
+    "risk": "read",
+    "params": [
+      {
+        "name": "id",
+        "key": "id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native id",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "memberships_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/memberships/get-member"
+  },
+  {
+    "name": "list_mailing_list",
+    "operationId": "list-entries",
+    "title": "Get all mailing list entries",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns all mailing list entries. The maximum page size is 100 - larger values are capped at 100.",
+    "method": "GET",
+    "path": "/open-api/v1.0/mailing-list-entries",
+    "group": "mailing lists",
+    "risk": "read",
+    "params": [
+      {
+        "name": "page",
+        "key": "page",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "default": 0,
+          "description": "Native page",
+          "minimum": 0
+        },
+        "explode": true
+      },
+      {
+        "name": "size",
+        "key": "size",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "default": 20,
+          "description": "Number of elements per page. The maximum page size is 100 - larger values are capped at 100.",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": true,
+    "scopes": [
+      {
+        "basicAuth": []
+      },
+      {
+        "oauth": [
+          "shop_read"
+        ]
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/mailing-lists/list-entries"
+  },
+  {
+    "name": "list_giveaway_packages",
+    "operationId": "list-packages",
+    "title": "Get all giveaway packages",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns all packages with giveaway links",
+    "method": "GET",
+    "path": "/open-api/v1.0/giveaway-links/packages",
+    "group": "giveaway links",
+    "risk": "read",
+    "params": [],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "giveaway_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/giveaway-links/list-packages"
+  },
+  {
+    "name": "get_giveaway_package",
+    "operationId": "get-package",
+    "title": "Get giveaway links",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns all giveaway links for packageId",
+    "method": "GET",
+    "path": "/open-api/v1.0/giveaway-links/packages/{packageId}",
+    "group": "giveaway links",
+    "risk": "read",
+    "params": [
+      {
+        "name": "packageId",
+        "key": "package_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native packageId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "giveaway_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/giveaway-links/get-package"
+  },
+  {
+    "name": "get_giveaway_draw",
+    "operationId": "get-draw",
+    "title": "Get draw",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nGet draw details",
+    "method": "GET",
+    "path": "/open-api/v1.0/gifting/draw/{id}",
+    "group": "gifting",
+    "risk": "read",
+    "params": [
+      {
+        "name": "id",
+        "key": "id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native id",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "giveaway_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/gifting/get-draw"
+  },
+  {
+    "name": "get_gift_purchase",
+    "operationId": "get-gift-purchase",
+    "title": "Get gift purchase by id",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns gift purchase details by id",
+    "method": "GET",
+    "path": "/open-api/v1.0/gift-purchase/{giftPurchaseId}",
+    "group": "twitch gift purchases",
+    "risk": "read",
+    "params": [
+      {
+        "name": "giftPurchaseId",
+        "key": "gift_purchase_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native giftPurchaseId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/gift-purchases/get-gift-purchase"
+  },
+  {
+    "name": "list_donations",
+    "operationId": "list-donations",
+    "title": "Get all donations",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns all donations with pagination. The maximum page size is 100 - larger values are capped at 100.",
+    "method": "GET",
+    "path": "/open-api/v1.0/donations",
+    "group": "donations",
+    "risk": "read",
+    "params": [
+      {
+        "name": "page",
+        "key": "page",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "default": 0,
+          "description": "Native page",
+          "minimum": 0
+        },
+        "explode": true
+      },
+      {
+        "name": "size",
+        "key": "size",
+        "location": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "default": 20,
+          "description": "Number of elements per page. The maximum page size is 100 - larger values are capped at 100.",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": true,
+    "scopes": [
+      {
+        "oauth": [
+          "donation_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/donations/list-donations"
+  },
+  {
+    "name": "get_donation",
+    "operationId": "get-donation",
+    "title": "Get donation by id",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns donation by id",
+    "method": "GET",
+    "path": "/open-api/v1.0/donations/{donationId}",
+    "group": "donations",
+    "risk": "read",
+    "params": [
+      {
+        "name": "donationId",
+        "key": "donation_id",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native donationId",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "donation_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/donations/get-donation"
+  },
+  {
+    "name": "get_dns_status",
+    "operationId": "get-dns-status",
+    "title": "Get DNS configuration status",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns the cached DNS configuration and record status for the shop's custom domain",
+    "method": "GET",
+    "path": "/open-api/v1.0/dns",
+    "group": "dns",
+    "risk": "read",
+    "params": [],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "dns_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/openapi/platform.json"
+  },
+  {
+    "name": "get_collection",
+    "operationId": "get-collection",
+    "title": "Get collection by ID or slug",
+    "description": "*Rate limit: 100 requests / 10 seconds per shop. See [Rate limiting](/guides/rate-limiting).*\n\nReturns a collection by its ID or slug",
+    "method": "GET",
+    "path": "/open-api/v1.0/collections/{collectionIdOrSlug}",
+    "group": "collections",
+    "risk": "read",
+    "params": [
+      {
+        "name": "collectionIdOrSlug",
+        "key": "collection_id_or_slug",
+        "location": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Native collectionIdOrSlug",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[^/\\\\?#\\x00-\\x1f]+$"
+        },
+        "explode": true
+      }
+    ],
+    "bodySchema": null,
+    "bodyRequired": false,
+    "privateOutput": false,
+    "pagination": false,
+    "scopes": [
+      {
+        "oauth": [
+          "offer_read"
+        ]
+      },
+      {
+        "basicAuth": []
+      }
+    ],
+    "successStatuses": [
+      200
+    ],
+    "emptySuccess": false,
+    "rateLimit": {
+      "capacity": 100,
+      "periodSeconds": 10,
+      "dimension": "shopId",
+      "cacheName": "open-api-rate-limiter",
+      "applies": [
+        {
+          "cacheName": "open-api-rate-limiter",
+          "filterOrder": 10,
+          "capacity": 100,
+          "periodSeconds": 10,
+          "dimension": "shopId"
+        }
+      ]
+    },
+    "source": "https://docs.fourthwall.com/api-reference/platform/collections/get-collection"
+  }
+]
