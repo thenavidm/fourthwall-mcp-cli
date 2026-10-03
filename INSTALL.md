@@ -20,6 +20,20 @@ Login prints instructions. Doctor checks local profiles and policy; the delibera
 `FOURTHWALL_ACCOUNTS` is a private JSON array of unique name plus one username/password, access_token or credentials_file source. Named profiles never inherit globals. `FOURTHWALL_DEFAULT_ACCOUNT` selects an exact default; `--account` selects another label. Discovery reports labels and source availability only, never secret values or paths.
 
 
+## Private credential file example
+
+Store one of these objects in your private file, replacing placeholders only locally. Never mix the objects or put the file in a repository. On macOS/Linux use an owner-only file and private parent directory. On Windows restrict ACLs, and replace all example paths with a real C:/Users/you/private/fourthwall.json path visible to the launching runtime.
+
+```json
+{"username":"YOUR_PRIVATE_SHOP_API_USERNAME","password":"YOUR_PRIVATE_SHOP_API_PASSWORD"}
+```
+
+Alternatively, for an already-issued OAuth bearer:
+
+```json
+{"access_token":"YOUR_EXISTING_PRIVATE_OAUTH_TOKEN"}
+```
+
 ## CLI
 
 ```bash
@@ -141,7 +155,7 @@ Use **MCP: Open User Configuration**. [VS Code uses servers and secure inputs](h
 }
 ~~~
 
-Start Fourthwall through the MCP controls, approve trust if prompted, and enter credentials in the private input prompts. Workspace .vscode/mcp.json may contain this placeholder-only structure, but never resolved secret values. Remote development runs the server in the selected remote environment, so local file paths refer to that environment.
+Start Fourthwall through the MCP controls, approve trust if prompted, and enter the private file path in the input prompt. Workspace .vscode/mcp.json may contain this placeholder-only structure, but never resolved secret values. Remote development runs the server in the selected remote environment, so local file paths refer to that environment.
 
 ## Windsurf
 
@@ -172,6 +186,65 @@ Enter actual values only in private user settings. Check the active-server indic
 Merge the Claude Desktop manual mcpServers block into your private `~/.gemini/settings.json`. Configure the private credential values locally, then restart Gemini CLI and inspect `/mcp`. See [Gemini CLI's MCP configuration](https://geminicli.com/docs/tools/mcp-server/). Its project settings must not contain real credentials. You can instead use the CLI from an agent shell.
 
 Other local stdio clients use the same command and arguments, adapted to their config format. A client that only accepts a remote MCP URL cannot connect directly: this package does not ship a public HTTP listener. ChatGPT's remote connector setup is not a substitute for local stdio installation.
+
+## OpenCode
+
+Merge this into your private user config, following [OpenCode's MCP docs](https://opencode.ai/docs/mcp-servers/). Reconnect and inspect the server status.
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "fourthwall": {
+      "type": "local",
+      "command": ["npx", "-y", "@thenavidm/fourthwall-mcp-cli@latest"],
+      "enabled": true,
+      "environment": {"FOURTHWALL_CREDENTIALS_FILE": "/absolute/private/fourthwall.json"}
+    }
+  }
+}
+```
+
+## Copilot CLI
+
+After private runtime setup, use [Copilot CLI's documented registration](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-mcp-servers):
+
+```bash
+copilot mcp add fourthwall --env FOURTHWALL_CREDENTIALS_FILE=/absolute/private/fourthwall.json -- npx -y @thenavidm/fourthwall-mcp-cli@latest
+copilot mcp get fourthwall
+```
+
+Registration stores the private file path in user configuration; do not put actual credentials in the command or repository.
+
+## OpenClaw
+
+Use the saved-server registry in an eligible runtime, following [OpenClaw's MCP reference](https://docs.openclaw.ai/cli/mcp):
+
+```bash
+openclaw mcp add fourthwall --command npx --arg -y --arg @thenavidm/fourthwall-mcp-cli@latest --env FOURTHWALL_CREDENTIALS_FILE=/absolute/private/fourthwall.json
+openclaw mcp doctor fourthwall --probe
+```
+
+Configure paths in the process where the server actually runs. Runtime projection and trust policy remain client-specific; a saved entry is not proof of a successful provider call.
+
+## Antigravity
+
+Follow [Google's current custom-server instructions](https://antigravity.google/docs/mcp): open MCP Servers, Manage MCP Servers, then View raw config. Merge the Claude Desktop manual mcpServers block above. Current global config is ~/.gemini/config/mcp_config.json; project .agents/mcp_config.json must never contain secrets. The local stdio command/args/env form applies. Reconnect and inspect tools.
+
+## Hermes
+
+Merge this into your private ~/.hermes/config.yaml, following [Hermes MCP configuration](https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp):
+
+```yaml
+mcp_servers:
+  fourthwall:
+    command: "npx"
+    args: ["-y", "@thenavidm/fourthwall-mcp-cli@latest"]
+    env:
+      FOURTHWALL_CREDENTIALS_FILE: "/absolute/private/fourthwall.json"
+```
+
+Restart the agent and inspect available tools. An agent shell can also use fourthwall-cli directly with the shipped SKILL.md; installing npm does not automatically register the skill.
 
 ## Docker
 
