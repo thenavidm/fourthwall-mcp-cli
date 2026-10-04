@@ -1,12 +1,13 @@
 {
   "name": "@thenavidm/fourthwall-mcp-cli",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Fourthwall shared CLI and local MCP: isolated shop profiles, reviewed operational batches, mandatory effect approval, bounded metadata exports and private upload receipts.",
   "type": "module",
   "main": "./dist/index.js",
   "bin": {
     "fourthwall-mcp": "dist/index.js",
-    "fourthwall-cli": "dist/index.js"
+    "fourthwall-cli": "dist/index.js",
+    "fourthwall-mcp-cli": "dist/npx.js"
   },
   "engines": {
     "node": ">=22"

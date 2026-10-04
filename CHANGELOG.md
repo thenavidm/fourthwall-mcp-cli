@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.1, 2026-10-04
+
+- **`npx -y @thenavidm/fourthwall-mcp-cli` starts the MCP server whatever order npm keeps.** npx starts whichever binary the npm registry lists first when they share one file, and the registry does not keep the published order. For this package that happened to be the server; for 23 others it was the CLI. A third binary named after the package, on its own file, now always starts the server, and npx picks it by name.
+
 ## 2.0.0 — 2026-10-04
 
 - Fresh public AGPL-3.0 snapshot; intact private legacy history remains archived privately.
