@@ -82,7 +82,7 @@ Alternatively install the CLI, make SKILL.md available to Claude, and use shell 
 
 ### Install the .mcpb extension
 
-Download fourthwall-2.0.0.mcpb from [GitHub Releases](https://github.com/thenavidm/fourthwall-mcp-cli/releases/latest). In a supported Claude Desktop build, use Settings > Extensions > Advanced settings > Install Extension… . Choose one private username/password pair, existing access token or credential JSON file; leave other sources empty. Named profiles require private manual runtime settings. Read-only exposes only the 49 read operations. Reconnect after installation or credential rotation. The bundle includes production dependencies; Node 22+ compatibility and actual GUI installation are separate checks.
+Download fourthwall-3.0.0.mcpb from [GitHub Releases](https://github.com/thenavidm/fourthwall-mcp-cli/releases/latest). In a supported Claude Desktop build, use Settings > Extensions > Advanced settings > Install Extension… . Choose one private username/password pair, existing access token or credential JSON file; leave other sources empty. Named profiles require private manual runtime settings. Read-only exposes only the 49 read operations. Reconnect after installation or credential rotation. The bundle includes production dependencies; Node 22+ compatibility and actual GUI installation are separate checks.
 
 ### Manual config
 

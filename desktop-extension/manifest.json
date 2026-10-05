@@ -2,7 +2,7 @@
   "manifest_version": "0.2",
   "name": "fourthwall",
   "display_name": "Fourthwall MCP Server & CLI",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "86 shared Fourthwall tasks with private shop profiles and per-call approval.",
   "long_description": "80 selected Platform API operations and six local workflows;49 reads/37 confirmed effects. Official broad OAuth MCP remains an alternative. GUI installation/provider task outcomes and actual token measurements require separate verification.",
   "author": {

@@ -24,7 +24,7 @@ Use CLI for scripts, shell agents and selected tasks. Use MCP where your app dis
 | Read-only MCP | Exposes 49 reads and excludes 37 effects locally |
 | Official hosted MCP | Broad OAuth tooling with its own schemas, previews and confirmation flow |
 
-No matched completed Codex task/token measurement has been collected for this integration. Counts, schema characters, discovery costs and another integration's benchmark are not task savings. A fair comparison must record equivalent inputs, current client/model, permissions, successful native outcomes, errors/retries and total tokens. Software is free under AGPL-3.0; provider fees and plans remain separate.
+README section 5 has this package's measured Claude Code and Codex costs against 2.0.1. No other offering was measured, so no comparison with one is claimed.
 
 ## Native coverage exclusions
 

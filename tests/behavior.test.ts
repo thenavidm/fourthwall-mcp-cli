@@ -4,7 +4,16 @@ import {tmpdir} from 'node:os';import {join} from 'node:path';import {createHash
 import {Client} from '@modelcontextprotocol/sdk/client/index.js';
 import {InMemoryTransport} from '@modelcontextprotocol/sdk/inMemory.js';
 import {loadConfig} from '../src/config.js';import {FourthwallClient} from '../src/api/client.js';
-import {ALL_TOOLS,validateArguments} from '../src/tools/index.js';import {buildServer} from '../src/server.js';
+import {ALL_TOOLS,validateArguments} from '../src/tools/index.js';import {createApp} from '../src/app.js';import {connect as slipwayConnect} from '@thenavidm/slipway/testing';
+
+/** The write policy comes from the environment on Slipway, as it does in use: this is the one a config describes. */
+function policy(prefix:string,config:{readOnly?:boolean;allowDestructive?:boolean;auditPath?:string}):Record<string,string>{return{...(config.readOnly?{[`${prefix}_READ_ONLY`]:'1'}:{}),...(config.allowDestructive===false?{[`${prefix}_ALLOW_DESTRUCTIVE`]:'0'}:{}),...(config.auditPath?{[`${prefix}_AUDIT_LOG`]:config.auditPath}:{})};}
+/** Slipway's schema check answers in the MCP SDK's own plain text, "Input validation error: …"; these tests read every error as JSON, so it is wrapped as {error}. */
+function jsonError(r:any){const text=r.content?.[0]?.text??'';try{JSON.parse(text);return r;}catch{return{...r,content:[{type:'text',text:JSON.stringify({error:text})}]};}}
+/** The SDK client's calls these tests were written against, over the real Slipway server. A hidden tool is a protocol error there; it comes back as the error result a client sees. */
+function adapt(mcp:Awaited<ReturnType<typeof slipwayConnect>>){return{listTools:async()=>({tools:await mcp.listTools()}),callTool:async({name,arguments:args}:{name:string;arguments?:Record<string,unknown>}):Promise<any>=>{try{const r:any=await mcp.callTool(name,args??{});return r.isError?jsonError(r):r;}catch(e){return{isError:true,content:[{type:'text',text:JSON.stringify({error:(e as Error).message})}]};}},close:()=>mcp.close()};}
+/** One tool call through the real server, as the 2.x guard-and-handler helper made it: the result's data, or its error thrown. */
+async function viaServer(prefix:string,config:any,client:any,name:string,args:Record<string,unknown>):Promise<any>{const mcp=await slipwayConnect(createApp({context:()=>({config,client})}),{env:policy(prefix,config)});try{const r:any=await mcp.callTool(name,args);const text=(r.content as any[])?.[0]?.text??'';if(r.isError)throw new Error(text);try{return JSON.parse(text);}catch{return text;}}finally{await mcp.close();}}
 const directories:string[]=[];
 afterEach(async()=>{vi.unstubAllGlobals();await Promise.all(directories.splice(0).map(p=>rm(p,{recursive:true,force:true})));});
 async function dir(){const p=await mkdtemp(join(tmpdir(),'fourthwall-fixture-'));directories.push(p);return p;}
@@ -12,7 +21,7 @@ const config=()=>loadConfig({FOURTHWALL_USERNAME:'fixture-username',FOURTHWALL_P
 const response=(v:unknown,status=200)=>new Response(v===undefined?null:JSON.stringify(v),{status,headers:{'Content-Type':'application/json'}});
 function fixture(replies:Response[]=[]){const calls:{url:URL;init:RequestInit}[]=[];const fetcher=vi.fn(async(u:any,init:any)=>{calls.push({url:new URL(String(u)),init});return replies.shift()??response({id:'fixture-shop'});});const c=new FourthwallClient(config(),fetcher as any,async()=>{});return{c,calls,fetcher};}
 async function call(name:string,args:Record<string,any>,c:FourthwallClient){const tool=ALL_TOOLS.find(t=>t.name===name)!;validateArguments(tool,args);return tool.handler(args,c) as Promise<any>;}
-async function protocol(c:FourthwallClient,readOnly=false){const server=buildServer({...c.config,readOnly},c);const [a,b]=InMemoryTransport.createLinkedPair();await server.connect(b);const client=new Client({name:'behavior-fixture',version:'1'});await client.connect(a);return{client,close:async()=>{await client.close();await server.close();}};}
+async function protocol(c:FourthwallClient,readOnly=false){const config={...c.config,readOnly};const mcp=await slipwayConnect(createApp({context:()=>({config,client:c})}),{env:policy('FOURTHWALL',config)});return{client:adapt(mcp),close:()=>mcp.close()};}
 const ID='00aa4abd-5778-4199-8161-0b49b2f212e5';
 describe('private shop configuration',()=>{
  it('discovers with no credentials',()=>expect(loadConfig({}).accounts).toEqual([]));
@@ -48,7 +57,7 @@ describe('real native request contracts',()=>{
 });
 describe('shared operation policy and API failures',()=>{
  for(const name of ['toggle_product_availability','mark_download_complete','get_public_token','export_resources','upload_file'])it('requires MCP confirmation for '+name,async()=>{const f=fixture(),p=await protocol(f.c);try{const args=name==='get_public_token'?{output_file:join(await dir(),'private.json')}:name==='export_resources'?{operation:'list_products',output_file:join(await dir(),'export.json')}:name==='upload_file'?{receipt_file:'/fixture/receipt',input_file:'/fixture/bytes'}:{product_id:ID,order_id:ID};if(name==='toggle_product_availability')delete args.order_id;if(name==='mark_download_complete')delete args.product_id;const r=await p.client.callTool({name,arguments:args});expect(r.isError).toBe(true);expect(JSON.stringify(r)).toContain('confirm');expect(f.calls).toHaveLength(0);}finally{await p.close();}});
- it('hides effects and refuses direct hidden calls in read-only mode',async()=>{const f=fixture(),p=await protocol(f.c,true);try{expect((await p.client.listTools()).tools).toHaveLength(49);const r=await p.client.callTool({name:'toggle_product_availability',arguments:{product_id:ID,available:false,confirm:true}});expect(r.isError).toBe(true);expect(JSON.stringify(r)).toContain('READ_ONLY');expect(f.calls).toHaveLength(0);}finally{await p.close();}});
+ it('hides effects and refuses direct hidden calls in read-only mode',async()=>{const f=fixture(),p=await protocol(f.c,true);try{expect((await p.client.listTools()).tools).toHaveLength(49);const r=await p.client.callTool({name:'toggle_product_availability',arguments:{product_id:ID,available:false,confirm:true}});expect(r.isError).toBe(true);expect(JSON.stringify(r)).toMatch(/READ_ONLY|not found/);expect(f.calls).toHaveLength(0);}finally{await p.close();}});
  it('treats a documented empty204 archive response as a receipt',async()=>{const f=fixture([response(undefined,204)]);expect(await call('archive_product',{product_id:ID},f.c)).toMatchObject({http_status:204,nativeEmptyReceipt:true});});
  it('refuses missing JSON where a native receipt is required',async()=>{const f=fixture([response(undefined)]);await expect(call('get_shop',{},f.c)).rejects.toThrow('Missing native receipt');});
  it('throws explicit native429 and never retries',async()=>{const f=fixture([response({code:'OPEN_API_TOO_MANY_REQUESTS',status:429},429)]);await expect(call('get_shop',{},f.c)).rejects.toMatchObject({code:'RATE_LIMIT',status:429});expect(f.calls).toHaveLength(1);});

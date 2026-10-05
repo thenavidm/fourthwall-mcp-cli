@@ -5,9 +5,9 @@ description: Fourthwall shop operations through the shared CLI and local MCP.
 
 # Fourthwall CLI
 
-Use fourthwall-cli tools, schema <command> and <command> --help to inspect real schemas. Tool underscores become command dashes; exact native body camelCase fields retain their spelling. Use --agent for JSON output. CLI and MCP execute the same handlers and guard.
+Use fourthwall-cli tools, schema <command> and <command> --help to inspect real schemas. Tool underscores become command dashes; exact native body camelCase fields retain their spelling. Use --agent for JSON output; it never confirms. fourthwall-cli which <words> finds the command for a task. CLI and MCP execute the same handlers and guard. Exit codes: 0 ok, 1 unexpected error, 2 usage, a refused effect, an unknown command or a hidden write, 3 not found, 4 auth, 5 API or network, 7 rate limited, 10 not configured.
 
-Confirm the intended profile with list-accounts and get-shop; no credentials in chat or commands. All effects require explicit --confirm. --yes never grants approval. Read-only exposes only the 49 read operations and refuses hidden effects directly. Provider/customer authorization remains separate.
+Confirm the intended profile with list-accounts and get-shop; no credentials in chat or commands. All effects require explicit --confirm. --yes never grants approval. Over MCP the person approves each in the client's own prompt or form; confirm:true counts only where the client cannot ask. Read-only exposes only the 49 read operations and refuses hidden effects directly. Provider/customer authorization remains separate.
 
 Read current records and contracts before preparing effects. Preview exact batches before asking for approval; bind requests/order/profile/schema, then submit the unchanged hash only after approval. Do not promise transactions, state locks or rollback. Inspect native state after ambiguous failures; no automatic retry.
 

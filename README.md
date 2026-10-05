@@ -12,7 +12,7 @@ Fourthwall MCP server and CLI for Codex and AI agents. 86 shared tasks for shop 
 
 One install, the same tools and guard on both surfaces. Fourthwall's official hosted OAuth MCP already provides broader coverage. This companion adds specific local workflows; read the comparison before choosing.
 
-Built and maintained by [Navid Moazzez](https://navid.me?utm_source=github&utm_medium=referral&utm_campaign=fourthwall-mcp-cli&utm_content=readme).
+Built and maintained by [Navid Moazzez](https://navid.me?utm_source=github&utm_medium=referral&utm_campaign=fourthwall-mcp-cli&utm_content=readme). Built on [Slipway](https://github.com/thenavidm/slipway), which turns one definition of each tool into the MCP server and the CLI.
 
 <img src="https://cdn.navid.me/repos/fourthwall-mcp-cli-retina.gif" alt="Codex illustrating Fourthwall native reads and an explicitly approved shop batch" width="520">
 
@@ -187,6 +187,27 @@ fourthwall-cli doctor --network
 
 Login prints instructions. Doctor checks local profiles and policy; the deliberate network option reads the current shop and validates its id. One successful read does not prove every permission, every task or resource ownership. File credentials are cached for the process: restart clients after rotating or revoking them.
 
+### Settings
+
+| Variable | Default | Meaning |
+| --- | --- | --- |
+| `FOURTHWALL_USERNAME`, `FOURTHWALL_PASSWORD` | None | Shop API Basic credentials |
+| `FOURTHWALL_ACCESS_TOKEN` | None | An existing scoped access token, in place of a username and password |
+| `FOURTHWALL_CREDENTIALS_FILE` | None | Absolute owner-only JSON file holding a username and password or an access token |
+| `FOURTHWALL_ACCOUNTS` | None | Named isolated profiles, each with one credential source |
+| `FOURTHWALL_DEFAULT_ACCOUNT` | First profile | The profile a call uses when it names none |
+| `FOURTHWALL_READ_ONLY` | 0 | `1` hides and refuses every effect |
+| `FOURTHWALL_ALLOW_DESTRUCTIVE` | 1 | `0` refuses every effect, even confirmed |
+| `FOURTHWALL_CONFIRM` | `human` | `model` lets confirm:true alone approve over MCP, for an agent with no person to ask |
+| `FOURTHWALL_AUDIT_LOG` | None | File that records every attempted effect, without payloads or credentials |
+| `FOURTHWALL_REQUEST_TIMEOUT_MS` | 30000 | Each request's deadline; no retries |
+| `FOURTHWALL_MIN_REQUEST_INTERVAL_MS` | 1000 | Pacing between requests; Fourthwall's tighter limits are paced too |
+| `FOURTHWALL_SURFACE` | `full` | `search` lists three tools that find, describe and run the rest |
+| `FOURTHWALL_TOOL_TIMEOUT_MS` | None | Give up on any tool after this long |
+| `FOURTHWALL_HTTP_PORT`, `FOURTHWALL_HTTP_HOST`, `FOURTHWALL_HTTP_TOKEN` | 8787, 127.0.0.1, none | For `--http`; any host but 127.0.0.1 needs the bearer token |
+| `FOURTHWALL_HTTP_ALLOWED_ORIGINS` | None | Comma-separated browser origins allowed to call `--http`; a page from any other site is refused |
+| `FOURTHWALL_DEBUG` | 0 | `1` prints debug lines on stderr |
+
 ## 3. Install
 
 Install Node 22+ in the runtime that launches the server. Use the complete [INSTALL.md](INSTALL.md) for Codex, Claude Code, Claude Desktop, Cursor, VS Code/Copilot, Windsurf, Zed, Gemini CLI, Docker and all three desktop OSes.
@@ -205,16 +226,17 @@ codex mcp add fourthwall -- npx -y @thenavidm/fourthwall-mcp-cli@latest
 codex mcp list
 ```
 
-The MCP executable speaks stdio; it is not a hosted URL. The desktop extension is [fourthwall-2.0.0.mcpb](https://github.com/thenavidm/fourthwall-mcp-cli/releases/download/v2.0.0/fourthwall-2.0.0.mcpb). Manual installation and updates use the host's supported extension screen. Choose one auth source, leave unused inputs empty and reconnect. GUI installation and authenticated provider tasks require their own validation.
+The MCP executable speaks stdio; it is not a hosted URL. The desktop extension is [fourthwall-3.0.0.mcpb](https://github.com/thenavidm/fourthwall-mcp-cli/releases/download/v3.0.0/fourthwall-3.0.0.mcpb). Manual installation and updates use the host's supported extension screen. Choose one auth source, leave unused inputs empty and reconnect. GUI installation and authenticated provider tasks require their own validation.
 
 ## 4. Output and exit codes
 
-Both binaries use the same schemas, handlers, validation and confirmation guard. `--json` prints JSON, `--compact` prints a single line, and `--agent` gives compact output for an agent. `--select` projects requested output fields. Errors go to stderr. `--yes` suppresses interactive presentation; it never replaces `--confirm`.
+Both binaries use the same schemas, handlers, validation and confirmation guard. `--json` prints JSON, `--compact` prints a single line, and `--agent` gives compact JSON with no prompts and never confirms a write. `fourthwall-cli which <words>` finds the command for a task. `--select` projects requested output fields. Errors go to stderr. `--yes` suppresses interactive presentation; it never replaces `--confirm`.
 
 | Exit | Meaning |
 | --- | --- |
 | 0 | Successful command |
-| 2 | Usage, invalid arguments or refused effect |
+| 1 | Unexpected error |
+| 2 | Usage, invalid arguments, a refused effect, an unknown command or a hidden write |
 | 3 | Not found |
 | 4 | Provider authentication/permission failure |
 | 5 | Other API/network failure |
@@ -240,7 +262,19 @@ Use CLI for scripts, shell agents and selected tasks. Use MCP where your app dis
 | Read-only MCP | Exposes 49 reads and excludes 37 effects locally |
 | Official hosted MCP | Broad OAuth tooling with its own schemas, previews and confirmation flow |
 
-No matched completed Codex task/token measurement has been collected for this integration. Counts, schema characters, discovery costs and another integration's benchmark are not task savings. A fair comparison must record equivalent inputs, current client/model, permissions, successful native outcomes, errors/retries and total tokens. Software is free under AGPL-3.0; provider fees and plans remain separate.
+Measured on 2026-10-05 against 2.0.1, with Claude Code 2.1.286 on Claude Opus 5.5 (one short prompt with and without the server connected, the difference read from the API's own usage figures) and Codex 0.159.3 on gpt-6.1-sol:
+
+| Cost | 2.0.1 | 3.0.0 |
+| --- | --- | --- |
+| Claude Code, every tool loaded, every message | 43,696 | 39,922 |
+| Claude Code's default, tool search, every message | 1,610 | 1,608 |
+| `SKILL.md`, read once | 518 | 662 |
+| Codex over the CLI, one task, median of five | 130,541 | 108,648 |
+| Codex over MCP, the same task, median of five | 77,214 | 77,915 |
+
+The task was "find the command that creates a promotion, and the flags it requires". Every tool loaded costs less because parts that several tools repeated are written once. Over the CLI, every 3.0.0 run asked `which`, whose answer carries the command's help, where three 2.0.1 runs tried `schema` without a command and then read the whole command list; the schema both versions read next is half the size on 3.0.0. Over MCP, Codex now prints `create_promotion`'s payload with every promotion type and its fields, where it printed 2.0.1's as `unknown`, about 700 tokens more. `SKILL.md` costs 144 more because it says how approval works over MCP and how `which` finds a command, and lists every exit code.
+
+Tool-list bytes or characters divided by four are not API usage, and no other offering was measured.
 
 ## 6. Tools
 
@@ -277,7 +311,7 @@ Native: `PUT /open-api/v1.0/webhooks/{webhookConfigurationId}`. [Current source]
 | `url` | string | Optional | Native field |
 | `allowedTypes` | array | Optional | Native field |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -302,7 +336,7 @@ Native: `DELETE /open-api/v1.0/webhooks/{webhookConfigurationId}`. [Current sour
 | --- | --- | --- | --- |
 | `webhook_configuration_id` | string (minLength=1, maxLength=256) | Required | Native webhookConfigurationId |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 
 ### start_streaming
 
@@ -318,7 +352,7 @@ Native: `PUT /open-api/v1.0/streaming/start`. [Current source](https://docs.four
 | --- | --- | --- | --- |
 | `services` | array | Optional | Native field |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -347,7 +381,7 @@ Native: `PUT /open-api/v1.0/streaming/end`. [Current source](https://docs.fourth
 | --- | --- | --- | --- |
 | `services` | array | Optional | Native field |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -370,7 +404,7 @@ Native: `PUT /open-api/v1.0/public-token`. [Current source](https://docs.fourthw
 | Argument | Type or constraint | Requirement | Meaning |
 | --- | --- | --- | --- |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `output_file` | string (minLength=1) | Required | Absolute NEW owner-private receipt file; exclusive0600 creation, no overwrite. Upload/public-token URLs never enter ordinary output. |
 
 ### get_promotion
@@ -406,7 +440,7 @@ Native: `PUT /open-api/v1.0/promotions/{promotionId}`. [Current source](https://
 | `appliesTo` | union | Optional | Native field |
 | `status` | LIVE, ENDED | Optional | Native field |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -444,7 +478,7 @@ Native: `PUT /open-api/v1.0/products/{productId}/state`. [Current source](https:
 | `product_id` | string (minLength=1, maxLength=256) | Required | Native productId |
 | `state` | PUBLIC, HIDDEN | Optional | Target lifecycle state. `PUBLIC` makes the product visible on the storefront; `HIDDEN` keeps it unlisted. The sold-out (`available`) flag is preserved across the transition — use `PUT /products/{productId}/availability` to flip it. |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -469,7 +503,7 @@ Native: `PUT /open-api/v1.0/products/{productId}/availability`. [Current source]
 | `product_id` | string (minLength=1, maxLength=256) | Required | Native productId |
 | `available` | boolean | Optional | Native field |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -494,7 +528,7 @@ Native: `PUT /open-api/v1.0/order/{orderId}/downloaded`. [Current source](https:
 | `order_id` | string (minLength=1, maxLength=256) | Required | Native orderId |
 | `defaultFileUrl` | string | Optional | Native field |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -519,7 +553,7 @@ Native: `PUT /open-api/v1.0/giveaways/giveaways/{id}/finish/twitch`. [Current so
 | `id` | string (minLength=1, maxLength=256) | Required | Native id |
 | `participants` | array | Optional | Native field |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -549,7 +583,7 @@ Native: `PUT /open-api/v1.0/giveaways/giveaway-checkout`. [Current source](https
 | `buttonText` | string | Optional | Native field |
 | `disabled` | boolean | Optional | Native field |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -576,7 +610,7 @@ Native: `DELETE /open-api/v1.0/giveaways/giveaway-checkout`. [Current source](ht
 | Argument | Type or constraint | Requirement | Meaning |
 | --- | --- | --- | --- |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 
 ### finish_giveaway_draw
 
@@ -593,7 +627,7 @@ Native: `PUT /open-api/v1.0/gifting/draw/{id}/finish`. [Current source](https://
 | `id` | string (minLength=1, maxLength=256) | Required | Native id |
 | `participants` | array | Optional | Native field |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -634,7 +668,7 @@ Native: `PUT /open-api/v1.0/gifting/config`. [Current source](https://docs.fourt
 | `shipping` | union | Optional | Native field |
 | `products` | union | Optional | Native field |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -685,7 +719,7 @@ Native: `PUT /open-api/v1.0/collections/{collectionId}`. [Current source](https:
 | `description` | string | Optional | Native field |
 | `offerIds` | array | Optional | List of product IDs to set in the collection |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -730,7 +764,7 @@ Native: `PUT /open-api/v1.0/collections/{collectionId}/products`. [Current sourc
 | `collection_id` | string (minLength=1, maxLength=256) | Required | Native collectionId |
 | `offerIds` | array | Optional | Full list of product IDs to set in the collection |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -755,7 +789,7 @@ Native: `PUT /open-api/v1.0/collections/{collectionId}/availability`. [Current s
 | `collection_id` | string (minLength=1, maxLength=256) | Required | Native collectionId |
 | `available` | boolean | Optional | Native field |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -794,7 +828,7 @@ Native: `POST /open-api/v1.0/webhooks`. [Current source](https://docs.fourthwall
 | `url` | string | Optional | Native field |
 | `allowedTypes` | array | Optional | Native field |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -835,7 +869,7 @@ Native: `POST /open-api/v1.0/promotions`. [Current source](https://docs.fourthwa
 | Argument | Type or constraint | Requirement | Meaning |
 | --- | --- | --- | --- |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | union | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -992,7 +1026,7 @@ Native: `POST /open-api/v1.0/products`. [Current source](https://docs.fourthwall
 | Argument | Type or constraint | Requirement | Meaning |
 | --- | --- | --- | --- |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -1039,7 +1073,7 @@ Native: `POST /open-api/v1.0/products/{productId}/images`. [Current source](http
 | `product_id` | string (minLength=1, maxLength=256) | Required | Native productId |
 | `images` | array | Optional | List of images to attach |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -1067,7 +1101,7 @@ Native: `DELETE /open-api/v1.0/products/{productId}/images`. [Current source](ht
 | `product_id` | string (minLength=1, maxLength=256) | Required | Native productId |
 | `imageUrls` | array | Optional | List of image URLs to remove |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -1093,7 +1127,7 @@ Native: `POST /open-api/v1.0/products/{productId}/digital-files`. [Current sourc
 | `fileUrl` | string | Optional | The file URL returned from the upload-url endpoint |
 | `fileName` | string | Optional | Display name for the file |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -1119,7 +1153,7 @@ Native: `DELETE /open-api/v1.0/products/{productId}/digital-files`. [Current sou
 | `product_id` | string (minLength=1, maxLength=256) | Required | Native productId |
 | `fileUrl` | string | Optional | Native field |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -1146,7 +1180,7 @@ Native: `POST /open-api/v1.0/products/{productId}/digital-files/upload-url`. [Cu
 | `contentType` | string | Optional | MIME type of the file |
 | `size` | integer (format=int64) | Optional | Size of the file in bytes. Must match the `x-goog-content-length-range` header sent when uploading the bytes to `uploadUrl`. |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 | `output_file` | string (minLength=1) | Required | Absolute NEW owner-private receipt file; exclusive0600 creation, no overwrite. Upload/public-token URLs never enter ordinary output. |
@@ -1175,7 +1209,7 @@ Native: `POST /open-api/v1.0/media/upload-url`. [Current source](https://docs.fo
 | `contentType` | string | Optional | MIME type of the file |
 | `size` | integer (format=int64) | Optional | Size of the file in bytes. Must match the `x-goog-content-length-range` header sent when uploading the bytes to `uploadUrl`. |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 | `output_file` | string (minLength=1) | Required | Absolute NEW owner-private receipt file; exclusive0600 creation, no overwrite. Upload/public-token URLs never enter ordinary output. |
@@ -1218,7 +1252,7 @@ Native: `POST /open-api/v1.0/media/images`. [Current source](https://docs.fourth
 | `width` | integer (format=int32) | Optional | Native field |
 | `height` | integer (format=int32) | Optional | Native field |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -1247,7 +1281,7 @@ Native: `POST /open-api/v1.0/giveaways/giveaways`. [Current source](https://docs
 | `username` | string | Optional | Native field |
 | `message` | string | Optional | Native field |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -1275,7 +1309,7 @@ Native: `POST /open-api/v1.0/giveaway-links`. [Current source](https://docs.four
 | `productId` | string (format=uuid) | Optional | Native field |
 | `number` | integer (format=int32) | Optional | Native field |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -1300,7 +1334,7 @@ Native: `POST /open-api/v1.0/gifting/checkout`. [Current source](https://docs.fo
 | `quantity` | integer (minimum=1, maximum=10000, format=int32) | Optional | How many gifts to purchase. |
 | `currency` | USD, EUR, CAD, GBP, AUD, NZD, SEK, NOK, DKK, PLN, INR, JPY, MYR, SGD, MXN, BRL, CHF | Optional | Display currency for the checkout. Defaults to the shop's currency. |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -1328,7 +1362,7 @@ Native: `POST /open-api/v1.0/fulfillments`. [Current source](https://docs.fourth
 | `items` | array (minItems=1) | Optional | Native field |
 | `shippingLabel` | object | Optional | Native field |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -1357,7 +1391,7 @@ Native: `POST /open-api/v1.0/dns/validate`. [Current source](https://docs.fourth
 | Argument | Type or constraint | Requirement | Meaning |
 | --- | --- | --- | --- |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 
 ### list_collections
 
@@ -1392,7 +1426,7 @@ Native: `POST /open-api/v1.0/collections`. [Current source](https://docs.fourthw
 | `description` | string | Optional | Native field |
 | `offerIds` | array | Optional | List of product IDs to include in the collection |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `payload` | object | Optional | Complete current native JSON body; cannot mix with native body flags or payload_file. |
 | `payload_file` | string (minLength=1) | Optional | Absolute regular non-symlink native JSON body file, at most1MiB. Cannot mix with payload or body flags. |
 
@@ -1589,7 +1623,7 @@ Native: `DELETE /open-api/v1.0/products/{productId}`. [Current source](https://d
 | --- | --- | --- | --- |
 | `product_id` | string (minLength=1, maxLength=256) | Required | Native productId |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 
 ### get_product_inventory
 
@@ -2017,7 +2051,7 @@ CLI: `fourthwall-cli submit-shop-batch`. Policy: explicit confirmation.
 | --- | --- | --- | --- |
 | `tasks` | array (minItems=1, maxItems=20) | Required | One to twenty exact ordered native effects. No signed receipts or mutable payload files. Cannot override account/confirm/output settings. |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `review_sha256` | string | Required | Native field |
 
 ### export_resources
@@ -2031,7 +2065,7 @@ CLI: `fourthwall-cli export-resources`. Policy: explicit confirmation.
 | `operation` | get_collection_products, list_promotions, list_products, list_collections, list_webhook_events, list_contributions, list_orders, list_members, list_mailing_list, list_donations | Required | Native field |
 | `arguments` | object | Optional | Current list query/path arguments; cannot override profile/policy/output. |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `start_offset` | integer (minimum=0, maximum=99) | Optional | Native field |
 | `max_pages` | integer (minimum=1, maximum=100) | Optional | Native field |
 | `max_items` | integer (minimum=1, maximum=10000) | Optional | Native field |
@@ -2046,7 +2080,7 @@ CLI: `fourthwall-cli upload-file`. Policy: explicit confirmation.
 | Argument | Type or constraint | Requirement | Meaning |
 | --- | --- | --- | --- |
 | `account` | string | Optional | Exact private shop profile label; not a provider identity or authorization proof. |
-| `confirm` | boolean | Optional | Explicit approval for this exact provider effect or local private-file operation. |
+| `confirm` | boolean | Optional | Set true only when the user asked for exactly this action. |
 | `receipt_file` | string (minLength=1) | Required | Native field |
 | `input_file` | string (minLength=1) | Required | Native field |
 
@@ -2054,6 +2088,8 @@ CLI: `fourthwall-cli upload-file`. Policy: explicit confirmation.
 ## 7. Writing safely
 
 Every one of the 37 effects requires `confirm:true` in MCP or `--confirm` in the CLI. This includes new checkouts, public-token PUT, uploads and local export file writes. Read-only hides and directly refuses effects. `FOURTHWALL_ALLOW_DESTRUCTIVE=0` refuses them even when confirmed. Local guard approval is separate from provider authorization and customer consent.
+
+Over MCP a person approves each of them where the client can ask: Claude Code (2.1.246 and later) shows its own prompt, and a client that can show forms asks with an approval form whose one box starts unticked. Each approval is signed, bound to that exact call and works once. Where a client can do neither, the model's `confirm:true` counts. `FOURTHWALL_CONFIRM=model` makes `confirm:true` enough everywhere, for an agent with no person to ask.
 
 Read the intended record and inspect `get_operation_schema` before writing. Validate IDs, quantities, callback events and the exact profile. Product creation defaults to hidden. Availability is not lifecycle state: `available:false` and `state:HIDDEN` are separate native changes.
 
@@ -2110,7 +2146,7 @@ A new file is reserved exclusively before fetching; existing files and symlinks 
 
 ## 11. How it works
 
-The SDK stdio server and CLI in-memory transport call the same handlers. Ajv validates discovered input schemas and current native body variants. A shared guard applies confirmation and read-only policy before effects. Native method/path allowlists prevent arbitrary provider requests; query arrays and date names retain their native representation.
+[Slipway](https://github.com/thenavidm/slipway) builds the MCP server, over stdio or `--http`, and the CLI from each tool's one definition, and both call the same handlers. Ajv validates discovered input schemas and current native body variants. A shared guard applies confirmation and read-only policy before effects. Native method/path allowlists prevent arbitrary provider requests; query arrays and date names retain their native representation.
 
 Six local helpers add private profile discovery, contract inspection, reviewed batches, bounded exports and exact byte uploads. No vendor or community runtime is copied. Official schema provenance and the 39-name migration mapping are checked by scripts.
 
@@ -2156,14 +2192,16 @@ The reviewed generic [wong2/mcp-cli](https://github.com/wong2/mcp-cli) source at
 
 | Component | Version or evidence |
 | --- | --- |
-| Package and desktop | 2.0.0 |
+| Package and desktop | 3.0.0 |
+| Slipway | 0.1.20 |
+| MCP TypeScript SDK, through Slipway | 2.3.0 |
 | Runtime | Node >=22 |
 | Native API | Current Platform v1.0 schema checked 2026-10-04 |
 | Selected operations | 80 of 95 native operations, 80 distinct method/path routes |
 | Legacy | 39 actual tool names preserved; breaking argument refresh |
 | Task/token, provider and GUI outcomes | Separate acceptance work; not inferred from local tests |
 
-Old cursor/limit fields become page/size, availability uses available, fulfillment uses items/shippingLabel, giveaway uses productId/number, webhooks require url and allowedTypes, promotions use native oneOf variants, and streaming services use typed objects. Effects now require explicit approval. Token/upload receipts need new private output_file. Product creation stays hidden by default. Use schema/help before migrating scripts.
+3.0.0 moves both surfaces onto Slipway and keeps every tool's name and arguments; [CHANGELOG.md](CHANGELOG.md) lists what changed for scripts. In 2.0, old cursor/limit fields became page/size, availability uses available, fulfillment uses items/shippingLabel, giveaway uses productId/number, webhooks require url and allowedTypes, promotions use native oneOf variants, and streaming services use typed objects. Effects now require explicit approval. Token/upload receipts need new private output_file. Product creation stays hidden by default. Use schema/help before migrating scripts.
 
 The current official source SHA-256 is 77de1061d5c9273927fd3cf4cac1375c4bb684bed4cc4c0f22252ea6b0e203fe. Provenance, excluded operations and sanitized snapshot checksum ship in src/tools/provenance.json. [CHANGELOG.md](CHANGELOG.md) records the full refresh; private legacy history remains separate.
 
@@ -2314,14 +2352,14 @@ Credentials remain in private environment settings or owner-only regular files o
 <details>
 <summary><b>Can I install the desktop extension?</b></summary>
 
-Download fourthwall-2.0.0.mcpb from GitHub Releases and install it through a supported Claude Desktop Extensions screen. Choose one credential source and leave others empty. The release includes production dependencies and no credentials. Archive/protocol checks do not prove GUI installation in every client build.
+Download fourthwall-3.0.0.mcpb from GitHub Releases and install it through a supported Claude Desktop Extensions screen. Choose one credential source and leave others empty. The release includes production dependencies and no credentials. Archive/protocol checks do not prove GUI installation in every client build.
 
 </details>
 
 <details>
 <summary><b>How much does it cost, and does CLI save tokens?</b></summary>
 
-The software is free under AGPL-3.0. Fourthwall service fees, plans and usage still apply. CLI can avoid loading unused MCP schemas, but command help, results, retries and task completion also cost context. Matched completed Codex task/token measurements remain pending; no savings percentage is invented.
+The software is free under AGPL-3.0. Fourthwall service fees, plans and usage still apply. In Claude Code the CLI costs nothing until it is used, plus about 660 tokens for `SKILL.md` once, where the server costs about 1,610 tokens a message with tool search and 39,900 with every tool loaded. In Codex, finding the command that creates a promotion and its flags took a median of 108,648 input tokens over the CLI and 77,915 over MCP. Section 5 has how each was measured.
 
 </details>
 
@@ -2352,7 +2390,7 @@ Navid Moazzez is a leading AI business strategist, and the host of the AI Creato
 
 ## Dependencies
 
-MCP SDK, Ajv and ajv-formats power the shared runtime. TypeScript, Vitest and the desktop packer are build/test tools. Dependency licenses are retained in the bundle; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+Slipway, which brings the MCP TypeScript SDK, and Ajv with ajv-formats power the shared runtime. TypeScript, Vitest and the desktop packer are build/test tools. Dependency licenses are retained in the bundle; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 ## License
 

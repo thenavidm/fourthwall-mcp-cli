@@ -9,14 +9,17 @@ import {createHash} from 'node:crypto';
 import {FourthwallClient,type Json,type QueryParam} from '../api/client.js';
 import {FourthwallError,UsageError} from '../api/errors.js';
 import {selectAccount,type Config} from '../config.js';
-import type {Risk} from '../safety.js';
+import type { Risk } from "@thenavidm/slipway";
 type Param={name:string;key:string;location:string;required:boolean;schema:Json;explode:boolean};
 export type Operation={name:string;operationId:string;title:string;description:string;method:string;path:string;group:string;risk:Risk;params:Param[];bodySchema:Json|null;bodyRequired:boolean;privateOutput:boolean;pagination:boolean;scopes:unknown;source:string};
 export type ToolSpec={name:string;title:string;description:string;group:string;inputSchema:Json;risk:Risk;handler:(args:Json,client:FourthwallClient)=>Promise<unknown>};
 const operations=operationData as unknown as Operation[];
 const ajv=new Ajv({allErrors:true,strict:false,formats:{int32:true,int64:true}});
 (addFormats as unknown as (a:Ajv)=>void)(ajv);
-const bodyValidators=new Map(operations.filter(o=>o.bodySchema).map(o=>[o.name,ajv.compile(o.bodySchema!)]));
+
+// Each schema compiles on first use: compiling all of them at load held back the server's first answer. compileAll() runs them in tests.
+const bodyValidators=new Map<string,ValidateFunction>();function bodyValidator(op:Operation):ValidateFunction{let v=bodyValidators.get(op.name);if(!v){v=ajv.compile(op.bodySchema!);bodyValidators.set(op.name,v);}return v;}
+
 function check(v:ValidateFunction,value:unknown){if(!v(value))throw new UsageError(ajv.errorsText(v.errors,{separator:'; '}));}
 const account={type:'string',description:'Exact private shop profile label; not a provider identity or authorization proof.'};
 const confirm={type:'boolean',description:'Explicit approval for this exact provider effect or local private-file operation.'};
@@ -50,7 +53,7 @@ async function prepare(op:Operation,args:Json){
   if(args.payload!==undefined&&args.payload_file!==undefined)throw new UsageError('Use payload or payload_file, not both.');
   const hasBody=op.bodySchema&&(op.bodyRequired||args.payload!==undefined||args.payload_file!==undefined||Object.keys(flat).length);
   const body=hasBody?(args.payload_file?await fileJSON(args.payload_file):args.payload??flat):undefined;
-  if(body!==undefined){check(bodyValidators.get(op.name)!,body);if(credentialFields(body))throw new UsageError('Credentials belong to private profile configuration, never native bodies.');}
+  if(body!==undefined){check(bodyValidator(op),body);if(credentialFields(body))throw new UsageError('Credentials belong to private profile configuration, never native bodies.');}
   for(const key of ['url','defaultFileUrl'])if(body?.[key]){let u:URL;try{u=new URL(body[key]);}catch{throw new UsageError('Invalid native callback/file URL.');}if(u.protocol!=='https:'||u.username||u.password)throw new UsageError('Native callbacks/file URLs require HTTPS without embedded credentials.');}
   if(op.operationId==='create-product'){
     if(body.publishOnCreate===undefined)body.publishOnCreate=false;
@@ -134,6 +137,7 @@ helper('upload_file','Upload exact bytes from a private receipt','Explicitly con
   await response.body?.cancel();if(![200,201,204].includes(response.status))throw new FourthwallError('Storage upload returned HTTP'+response.status+'; no automatic retry.',response.status);
   return{uploaded:true,bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex'),http_status:response.status,profile,registrationPerformed:false,publicationPerformed:false,notice:'Native upload acknowledgement only; register/link the file separately after review. Receipt binds labels/metadata, not provider ownership.'};
 });
-const validators=new Map(ALL_TOOLS.map(t=>[t.name,ajv.compile(t.inputSchema)]));
-export function validateArguments(tool:ToolSpec,args:Json){check(validators.get(tool.name)!,args);}
+const validators=new Map<string,ValidateFunction>();function validatorFor(tool:ToolSpec):ValidateFunction{let v=validators.get(tool.name);if(!v){v=ajv.compile(tool.inputSchema);validators.set(tool.name,v);}return v;}export function validateArguments(tool:ToolSpec,args:Json){check(validatorFor(tool),args);}
+/** Compile every input and body schema, as loading once did, so a test can prove they all compile. */
+export function compileAll():number{for(const t of ALL_TOOLS)validatorFor(t);for(const o of operations)if(o.bodySchema)bodyValidator(o);return validators.size+bodyValidators.size;}
 export function visibleTools(config:Config){return ALL_TOOLS.filter(t=>!config.readOnly||t.risk==='read');}
